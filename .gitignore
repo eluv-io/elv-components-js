@@ -1,0 +1,13 @@
+!.keep
+
+.idea/
+
+**.DS_STORE
+
+node_modules/
+
+build/*
+
+scratch/
+
+configuration.json

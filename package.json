@@ -1,0 +1,24 @@
+{
+  "name": "elv-components-js",
+  "version": "1.0.0",
+  "description": " React components and SCSS styling for Eluvio applications ",
+  "main": "src",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eluv-io/elv-components-js.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/eluv-io/elv-components-js/issues"
+  },
+  "homepage": "https://github.com/eluv-io/elv-components-js#readme",
+  "dependencies": {
+    "prop-types": "^15.7.2",
+    "react": "^16.8.3",
+    "react-router-dom": "^4.3.1"
+  }
+}

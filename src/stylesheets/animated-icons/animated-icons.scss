@@ -1,0 +1,11 @@
+@import "../colors.scss";
+@import "ball-pulse";
+@import "ball-clip-rotate";
+
+.animated-icon {
+  margin: 0 15px;
+}
+
+.la-dark {
+  color: $elv-color-lightgray;
+}
