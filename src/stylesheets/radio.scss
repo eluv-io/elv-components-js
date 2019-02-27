@@ -1,0 +1,39 @@
+@import "variables/spacing";
+
+.-elv-radio-options {
+  width: 100%;
+
+  &.-elv-radio-inline {
+    display: flex;
+  }
+
+  .-elv-radio-option {
+    display: flex;
+
+    label,
+    input {
+      cursor: pointer;
+    }
+
+    label {
+      min-width: 100px;
+    }
+
+    &.-elv-radio-inline {
+      align-items: center;
+      margin-right: $elv-spacing-l;
+
+      &:last-child {
+        margin-right: 0;
+      }
+
+      input {
+        margin-right: $elv-spacing-xs;
+      }
+
+      label {
+        min-width: 0;
+      }
+    }
+  }
+}

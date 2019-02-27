@@ -1,0 +1,41 @@
+@import "variables/colors";
+@import "variables/spacing";
+
+.-elv-icon {
+  color: $elv-color-darkergray;
+  display: block;
+  fill: $elv-color-darkergray;
+  height: 30px;
+  width: 30px;
+}
+
+.-elv-icon-button {
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
+  padding: 0;
+
+  .-elv-icon {
+    height: auto;
+    margin: 0;
+    padding: 0;
+    width: auto;
+  }
+
+  &:hover:enabled {
+    .icon {
+      opacity: 0.8
+    }
+  }
+
+  &:active:enabled {
+    .icon {
+      opacity: 0.9
+    }
+  }
+
+  &:disabled {
+    cursor: auto;
+    opacity: 0.5;
+  }
+}

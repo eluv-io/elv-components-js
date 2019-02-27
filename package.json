@@ -4,21 +4,34 @@
   "description": " React components and SCSS styling for Eluvio applications ",
   "main": "src",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "npm run fix-scss ; npm run lint-scss ; npm run fix-js",
+    "lint-show": "npm run lint-scss ; npm run lint-js",
+    "lint-js": "./node_modules/.bin/eslint \"src/**/*.js\"",
+    "lint-scss": "./node_modules/sass-lint/bin/sass-lint.js -c .scss-lint.yml -v -q",
+    "fix-js": "npm run lint-js -- --fix",
+    "fix-scss": "./node_modules/sass-lint-auto-fix/dist/index.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/eluv-io/elv-components-js.git"
   },
   "author": "",
-  "license": "ISC",
   "bugs": {
     "url": "https://github.com/eluv-io/elv-components-js/issues"
   },
   "homepage": "https://github.com/eluv-io/elv-components-js#readme",
   "dependencies": {
+    "path": "^0.12.7",
+    "pretty-bytes": "^5.1.0",
     "prop-types": "^15.7.2",
     "react": "^16.8.3",
-    "react-router-dom": "^4.3.1"
+    "react-router-dom": "^4.3.1",
+    "svg-inline-react": "^3.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^5.14.1",
+    "eslint-plugin-react": "^7.12.4",
+    "sass-lint": "^1.12.1",
+    "sass-lint-auto-fix": "^0.15.2"
   }
 }
