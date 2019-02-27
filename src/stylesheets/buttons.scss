@@ -1,5 +1,5 @@
-@import "colors";
-@import "spacing";
+@import "variables/colors";
+@import "variables/spacing";
 @import "mixins";
 
 $elv-button-background: $elv-color-mediumblue !default;
@@ -10,7 +10,7 @@ $elv-button-border: $elv-color-mediumblue !default;
 $elv-button-border-hover: $elv-color-mediumblue !default;
 
 @mixin elv-button {
-  @include no-select;
+  @include elv-no-select;
   background-color: $elv-button-background;
   border: 1px solid $elv-button-border;
   border-radius: 2px;
@@ -116,11 +116,4 @@ $elv-button-danger-border-hover: $elv-color-mediumred !default;
       @include elv-button-danger;
     }
   }
-}
-
-.-loading-element {
-  align-items: center;
-  display: flex;
-  justify-content: center;
-  width: 100%;
 }

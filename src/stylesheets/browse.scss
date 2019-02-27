@@ -1,0 +1,74 @@
+@import "variables/colors";
+@import "variables/spacing";
+@import "mixins";
+
+@mixin elv-browse-widget {
+  .-elv-image-preview {
+    display: flex;
+    justify-content: center;
+    margin-top: $elv-spacing-s;
+    width: 100%;
+
+    img {
+      max-width: 100%;
+    }
+  }
+
+  .-elv-browse-widget-files {
+    border: 1px solid $elv-color-lightgray;
+    margin: $elv-spacing-s 0;
+    max-height: 50vh;
+    overflow-y: auto;
+    padding-top: $elv-spacing-s 0;
+    width: 100%;
+
+    table {
+      border-collapse: collapse;
+      table-layout: fixed;
+      width: 100%;
+    }
+
+    th {
+      padding: $elv-spacing-xs;
+      text-align: left;
+
+      &.-elv-type-header {
+        width: 20px;
+      }
+
+      &.-elv-size-header {
+        width: 5em;
+      }
+    }
+
+    tr {
+      border-top: 1px solid $elv-color-lightergray;
+
+      &.-elv-directory {
+        cursor: pointer;
+
+        &:hover {
+          background-color: $elv-color-lightestgray;
+        }
+      }
+
+      td {
+        @include elv-ellipsis;
+        padding: $elv-spacing-xs;
+
+        .-elv-item-path {
+          max-width: 150px;
+        }
+
+        .-elv-item-icon {
+          height: 20px;
+          width: 20px;
+        }
+      }
+    }
+  }
+}
+
+.-elv-browse-widget {
+  @include elv-browse-widget;
+}

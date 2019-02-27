@@ -1,5 +1,6 @@
-import React from "react";
 import "../stylesheets/animated-icons/animated-icons.scss";
+
+import React from "react";
 
 export const BallPulse = () => {
   return (
