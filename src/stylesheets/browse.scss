@@ -29,11 +29,10 @@
     }
 
     th {
-      padding: $elv-spacing-xs;
       text-align: left;
 
       &.-elv-type-header {
-        width: 20px;
+        width: 35px;
       }
 
       &.-elv-size-header {
@@ -43,6 +42,7 @@
 
     tr {
       border-top: 1px solid $elv-color-lightergray;
+      height: 30px;
 
       &.-elv-directory {
         cursor: pointer;
@@ -54,15 +54,16 @@
 
       td {
         @include elv-ellipsis;
-        padding: $elv-spacing-xs;
+        height: 30px;
 
-        .-elv-item-path {
-          max-width: 150px;
+        &.-elv-item-icon {
+          align-items: center;
+          display: flex;
+          justify-content: center;
         }
 
-        .-elv-item-icon {
-          height: 20px;
-          width: 20px;
+        &.-elv-item-path {
+          max-width: 150px;
         }
       }
     }

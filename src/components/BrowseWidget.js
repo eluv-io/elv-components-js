@@ -90,9 +90,9 @@ class BrowseWidget extends React.Component {
     const info = this.props.progress &&  this.props.progress[item.path] ?
       `${this.props.progress[item.path]}%` : PrettyBytes(item.size || 0);
     return (
-      <tr className="-elv-item-icon" key={item.path}>
-        <td>
-          <ImageIcon icon={item.type === "directory" ? DirectoryIcon : FileIcon} className="-elv-item-icon"/>
+      <tr key={item.path}>
+        <td className="-elv-item-icon">
+          <ImageIcon icon={item.type === "directory" ? DirectoryIcon : FileIcon}/>
         </td>
         <td className="-elv-item-path">
           { item.path }
