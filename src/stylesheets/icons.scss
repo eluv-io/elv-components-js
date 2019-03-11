@@ -1,22 +1,24 @@
 @import "variables/colors";
 @import "variables/spacing";
 
-.-elv-icon {
-  color: $elv-color-darkergray;
+@mixin elv-icon($color) {
+  color: $color;
   display: block;
-  fill: $elv-color-darkergray;
+  fill: $color;
   height: 30px;
   width: 30px;
 }
 
-.-elv-icon-button {
+@mixin elv-icon-button($color, $hover-color, $active-color) {
   background-color: transparent;
   border: 0;
   cursor: pointer;
   height: 30px;
   padding: 0;
 
-  .-elv-icon {
+  i {
+    @include elv-icon($color);
+
     height: 100%;
     margin: 0;
     padding: 0;
@@ -28,14 +30,14 @@
   }
 
   &:hover:enabled {
-    .icon {
-      opacity: 0.8
+    svg {
+      color: $hover-color;
     }
   }
 
   &:active:enabled {
-    .icon {
-      opacity: 0.9
+    svg {
+      color: $active-color;
     }
   }
 
@@ -43,4 +45,12 @@
     cursor: auto;
     opacity: 0.5;
   }
+}
+
+.-elv-icon {
+  @include elv-icon($elv-color-darkgray);
+}
+
+.-elv-icon-button {
+  @include elv-icon-button($elv-color-darkgray, $elv-color-mediumgray, $elv-color-darkergray);
 }
