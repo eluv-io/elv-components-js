@@ -29,10 +29,6 @@ $elv-button-border-hover: $elv-color-mediumblue !default;
     color: $elv-button-color-hover;
   }
 
-  &:not(:last-child) {
-    margin-right: $elv-spacing-xs;
-  }
-
   &:focus {
     box-shadow: 0 0 8px $elv-color-lightblue;
     outline: 2px auto $elv-color-lighterblue;

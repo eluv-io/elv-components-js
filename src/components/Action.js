@@ -4,12 +4,13 @@ import React from "react";
 import PropTypes from "prop-types";
 import Link from "react-router-dom/es/Link";
 
-const Action = ({title, type, to, onClick, className, disabled=false, children}) => {
+const Action = ({title, type, to, onClick, className, disabled=false, children, button=true}) => {
   className = className || "";
+  if(button) { className = className + " -elv-button"; }
 
-  const text = children;
+  const content = children;
 
-  if(!title) { title = text; }
+  if(!title) { title = content; }
   if(!type) { type = "button"; }
 
   if(type === "link") {
@@ -18,9 +19,9 @@ const Action = ({title, type, to, onClick, className, disabled=false, children})
         to={to}
         title={title}
         tabIndex={0}
-        className={"-elv-button " + className}
+        className={className}
       >
-        { text }
+        { content }
       </Link>
     );
   } else {
@@ -30,18 +31,22 @@ const Action = ({title, type, to, onClick, className, disabled=false, children})
         title={title}
         tabIndex={0}
         type={type}
-        className={`-elv-button ${className}`}
+        className={className}
         onClick={onClick}
         disabled={disabled}
       >
-        { text }
+        { content }
       </button>
     );
   }
 };
 
 Action.propTypes = {
-  children: PropTypes.string.isRequired,
+  children: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object,
+    PropTypes.array
+  ]).isRequired,
   title: PropTypes.string,
   type: PropTypes.string,
   to: PropTypes.string,

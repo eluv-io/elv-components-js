@@ -19,16 +19,16 @@
       min-width: 100px;
     }
 
+    input {
+      margin-right: $elv-spacing-xs;
+    }
+
     &.-elv-radio-inline {
       align-items: center;
       margin-right: $elv-spacing-l;
 
       &:last-child {
         margin-right: 0;
-      }
-
-      input {
-        margin-right: $elv-spacing-xs;
       }
 
       label {

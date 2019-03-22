@@ -45,7 +45,7 @@ class Modal extends React.Component {
 
   render() {
     return (
-      <div className="-elv-modal">
+      <div className={`-elv-modal ${this.props.className || ""}`}>
         <div className="-elv-modal-content" ref={this.state.outsideContainerRef}>
           <div className="-elv-modal-error">{this.props.errorMessage}</div>
           { this.props.modalContent }
@@ -59,7 +59,8 @@ Modal.propTypes = {
   modalContent: PropTypes.node.isRequired,
   OnClickOutside: PropTypes.func.isRequired,
   closable: PropTypes.bool, // Allow caller to prevent closing of modal
-  errorMessage: PropTypes.string
+  errorMessage: PropTypes.string,
+  className: PropTypes.string
 };
 
 export default Modal;

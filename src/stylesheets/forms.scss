@@ -91,6 +91,17 @@
     justify-content: flex-end;
     margin: $elv-spacing-m 0;
     width: 100%;
+
+    *:not(:last-child) {
+      margin-right: $elv-spacing-xs;
+    }
+  }
+
+  .form-error {
+    background: $elv-color-mediumred;
+    color: #ffffff;
+    margin-top: $elv-spacing-s;
+    padding: $elv-spacing-xs;
   }
 
   @media only screen and (max-width: 1000px) {

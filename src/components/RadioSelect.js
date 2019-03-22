@@ -55,8 +55,8 @@ class RadioSelect extends React.Component {
     } else {
       return (
         <div className="-elv-radio-option" key={"radio-select-" + this.props.name + "-" + optionValue }>
-          { label }
           { input }
+          { label }
         </div>
       );
     }
