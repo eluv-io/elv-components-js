@@ -52,5 +52,5 @@
 }
 
 .-elv-icon-button {
-  @include elv-icon-button($elv-color-darkgray, $elv-color-mediumgray, $elv-color-darkergray);
+  @include elv-icon-button($elv-color-darkgray, $elv-color-black, $elv-color-darkergray);
 }

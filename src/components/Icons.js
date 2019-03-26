@@ -14,16 +14,32 @@ export const CroppedIcon = ({icon, title, className, iconClassName}) => {
   );
 };
 
+export const CroppedIconWithAction = ({icon, title, actionText, onClick, className, children}) => {
+  return (
+    <div className={className || ""}>
+      <div className="-elv-cropped-icon -elv-cropped-icon-with-action">
+        <ImageIcon icon={icon} title={title} />
+        <div className="-elv-hover-action">
+          <div title={title} onClick={onClick}>
+            <span>{actionText}</span>
+            { children }
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 export const ImageIcon = ({icon, title, className}) => {
   className = "-elv-icon " + (className || "");
 
   if(icon.startsWith("<svg")) {
     return (
-      <InlineSVG title={title} className={className} src={icon}/>
+      <InlineSVG title={title} alt={title} className={className} src={icon}/>
     );
   } else {
     return (
-      <img title={title} className={className} src={icon} />
+      <img title={title} alt={title} className={className} src={icon} />
     );
   }
 };
@@ -32,8 +48,8 @@ export const IconButton = ({icon, title, onClick, disabled=false, className}) =>
   className = "-elv-icon-button " + (className || "");
 
   return (
-    <button className={className} type="button" role="button" title={title} onClick={onClick} disabled={disabled}>
-      <InlineSVG className="-elv-icon" src={icon} />
+    <button className={className} type="button" role="button" title={title} aria-label={title} onClick={onClick} disabled={disabled}>
+      <InlineSVG className="-elv-icon" alt={title} src={icon} />
     </button>
   );
 };

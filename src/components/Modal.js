@@ -57,7 +57,7 @@ class Modal extends React.Component {
 
 Modal.propTypes = {
   modalContent: PropTypes.node.isRequired,
-  OnClickOutside: PropTypes.func.isRequired,
+  OnClickOutside: PropTypes.func,
   closable: PropTypes.bool, // Allow caller to prevent closing of modal
   errorMessage: PropTypes.string,
   className: PropTypes.string

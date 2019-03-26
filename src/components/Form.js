@@ -29,9 +29,11 @@ class Form extends React.Component {
           await this.props.OnComplete();
         }
 
-        this.setState({
-          complete: true
-        });
+        if(this.props.redirectPath) {
+          this.setState({
+            complete: true
+          });
+        }
       } catch(error) {
         if(this.props.OnError) {
           await this.props.OnError(error);
@@ -83,7 +85,7 @@ class Form extends React.Component {
   }
 
   render() {
-    if(!this.props.noRedirect && this.state.complete && this.props.redirectPath) {
+    if(this.state.complete && this.props.redirectPath) {
       return (
         <Redirect push to={ this.props.redirectPath } />
       );
@@ -114,7 +116,6 @@ Form.propTypes = {
   status: PropTypes.object.isRequired,
   redirectPath: PropTypes.string,
   cancelPath: PropTypes.string,
-  noRedirect: PropTypes.bool,
   submitText: PropTypes.string,
   cancelText: PropTypes.string,
   OnSubmit: PropTypes.func.isRequired,
