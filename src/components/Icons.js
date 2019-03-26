@@ -3,6 +3,7 @@ import "../stylesheets/icons.scss";
 import InlineSVG from "svg-inline-react";
 import React from "react";
 import Link from "react-router-dom/es/Link";
+import {onEnterPressed} from "../utils/Events";
 
 export const CroppedIcon = ({icon, title, className, iconClassName}) => {
   return (
@@ -16,14 +17,19 @@ export const CroppedIcon = ({icon, title, className, iconClassName}) => {
 
 export const CroppedIconWithAction = ({icon, title, actionText, onClick, className, children}) => {
   return (
-    <div className={className || ""}>
+    <div
+      tabIndex="0"
+      title={title}
+      aria-label={title}
+      onClick={onClick}
+      onKeyPress={onEnterPressed(onClick)}
+      className={className || ""}
+    >
       <div className="-elv-cropped-icon -elv-cropped-icon-with-action">
         <ImageIcon icon={icon} title={title} />
-        <div className="-elv-hover-action">
-          <div title={title} onClick={onClick}>
-            <span>{actionText}</span>
-            { children }
-          </div>
+        <div className="-elv-hover-action">>
+          <span>{actionText}</span>
+          { children }
         </div>
       </div>
     </div>

@@ -26,7 +26,7 @@ class Modal extends React.Component {
 
   componentWillUnmount() {
     document.removeEventListener("mousedown", this.HandleClickOutside);
-    document.addEventListener("keyup", this.HandleEscapeKey);
+    document.removeEventListener("keyup", this.HandleEscapeKey);
   }
 
   HandleClickOutside(event) {
@@ -39,7 +39,7 @@ class Modal extends React.Component {
 
   HandleEscapeKey(event) {
     if(event.keyCode === 27) {
-      this.props.OnClickOutside();
+      this.HandleClickOutside(event);
     }
   }
 
