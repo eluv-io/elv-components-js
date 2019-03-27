@@ -27,7 +27,7 @@ export const CroppedIconWithAction = ({icon, title, actionText, onClick, classNa
     >
       <div className="-elv-cropped-icon -elv-cropped-icon-with-action">
         <ImageIcon icon={icon} title={title} />
-        <div className="-elv-hover-action">>
+        <div className="-elv-hover-action">
           <span>{actionText}</span>
           { children }
         </div>

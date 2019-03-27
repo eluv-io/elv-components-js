@@ -76,11 +76,11 @@ $elv-button-tertiary-border-hover: $elv-color-mediumgray !default;
 }
 
 $elv-button-danger-background: $elv-color-bg-white !default;
-$elv-button-danger-background-hover: $elv-color-mediumred !default;
-$elv-button-danger-color: $elv-color-mediumred !default;
+$elv-button-danger-background-hover: $elv-color-darkergray !default;
+$elv-button-danger-color: $elv-color-darkergray !default;
 $elv-button-danger-color-hover: $elv-color-text-white !default;
-$elv-button-danger-border: $elv-color-mediumred !default;
-$elv-button-danger-border-hover: $elv-color-mediumred !default;
+$elv-button-danger-border: $elv-color-darkergray !default;
+$elv-button-danger-border-hover: $elv-color-darkergray !default;
 
 @mixin elv-button-danger {
   @include elv-button;
