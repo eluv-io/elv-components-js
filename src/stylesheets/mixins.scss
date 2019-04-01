@@ -30,7 +30,7 @@
       height: $height;
       max-height: $max-height;
       max-width: $max-width;
-      object-fit: cover;
+      object-fit: contain;
       object-position: top;
       padding: 0;
       width: $width;
