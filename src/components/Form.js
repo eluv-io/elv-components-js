@@ -11,7 +11,6 @@ class Form extends React.Component {
     super(props);
 
     this.state = {
-      complete: false,
       cancel: false
     };
 
@@ -27,12 +26,6 @@ class Form extends React.Component {
 
         if(this.props.OnComplete) {
           await this.props.OnComplete();
-        }
-
-        if(this.props.redirectPath) {
-          this.setState({
-            complete: true
-          });
         }
       } catch(error) {
         if(this.props.OnError) {
@@ -55,7 +48,7 @@ class Form extends React.Component {
   }
 
   ErrorMessage() {
-    if(!this.props.status.error) { return null; }
+    if(!this.props.status.error || !this.props.status.errorMessage) { return null; }
 
     return (
       <div className="form-error">
@@ -85,7 +78,7 @@ class Form extends React.Component {
   }
 
   render() {
-    if(this.state.complete && this.props.redirectPath) {
+    if(this.props.status.completed && this.props.redirectPath) {
       return (
         <Redirect push to={ this.props.redirectPath } />
       );
