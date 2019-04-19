@@ -1,39 +1,41 @@
 @import "styles";
 
-.-elv-radio-options {
+.-elv-radio {
   width: 100%;
 
   &.-elv-radio-inline {
     display: flex;
-  }
 
-  .-elv-radio-option {
-    display: flex;
-
-    label,
-    input {
-      cursor: pointer;
-    }
-
-    label {
-      min-width: 100px;
-    }
-
-    input {
-      margin-right: $elv-spacing-xs;
-    }
-
-    &.-elv-radio-inline {
-      align-items: center;
-      margin-right: $elv-spacing-l;
+    .-elv-radio-option {
+      flex-grow: 1;
+      margin-right: $elv-spacing-xxs;
+      padding: $elv-spacing-xxs;
+      text-align: center;
 
       &:last-child {
         margin-right: 0;
       }
+    }
+  }
 
-      label {
-        min-width: 0;
-      }
+  .-elv-radio-option {
+    border: 1px solid $elv-color-mediumgray;
+    border-radius: 2px;
+    cursor: pointer;
+    font-weight: 500;
+    margin: $elv-spacing-xxs 0;
+    padding: $elv-spacing-xs;
+
+    &:not(.-elv-radio-selected) {
+      background-color: $elv-color-lightergray;
+      border: 1px solid $elv-color-mediumgray;
+      color: $elv-color-text-light;
+      font-weight: normal;
+    }
+
+    &:hover {
+      background-color: $elv-color-white;
+      color: $elv-color-text-dark;
     }
   }
 }
