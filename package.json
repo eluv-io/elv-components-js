@@ -2,7 +2,7 @@
   "name": "elv-components-js",
   "version": "1.0.0",
   "description": " React components and SCSS styling for Eluvio applications ",
-  "main": "src",
+  "main": "src/index.js",
   "scripts": {
     "lint": "npm run fix-scss ; npm run lint-scss ; npm run fix-js",
     "lint-show": "npm run lint-scss ; npm run lint-js",

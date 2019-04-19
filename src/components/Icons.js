@@ -56,11 +56,11 @@ export const ImageIcon = ({icon, alternateIcon, label, className}) => {
   }
 };
 
-export const IconButton = ({icon, label, onClick, disabled=false, className}) => {
+export const IconButton = ({icon, label, title, onClick, disabled=false, className}) => {
   className = "-elv-icon-button " + (className || "");
 
   return (
-    <button className={className} type="button" role="button" aria-label={label} onClick={onClick} disabled={disabled}>
+    <button className={className} type="button" role="button" aria-label={label} title={title} onClick={onClick} disabled={disabled}>
       <InlineSVG className="-elv-icon" alt={label} src={icon} />
     </button>
   );
