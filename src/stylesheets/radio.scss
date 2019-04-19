@@ -22,7 +22,6 @@
     border: 1px solid $elv-color-mediumgray;
     border-radius: 2px;
     cursor: pointer;
-    font-weight: 500;
     margin: $elv-spacing-xxs 0;
     padding: $elv-spacing-xs;
 
@@ -30,7 +29,7 @@
       background-color: $elv-color-lightergray;
       border: 1px solid $elv-color-mediumgray;
       color: $elv-color-text-light;
-      font-weight: normal;
+      font-weight: 300;
     }
 
     &:hover {

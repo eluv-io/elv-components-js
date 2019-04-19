@@ -39,8 +39,6 @@
   }
 
   input {
-    height: 1.8em;
-    padding: 0 $elv-spacing-xxs;
     width: auto;
 
     &[type="checkbox"] {
@@ -56,8 +54,6 @@
   }
 
   select {
-    @include elv-select;
-
     width: 100%;
   }
 
