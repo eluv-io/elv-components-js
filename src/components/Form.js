@@ -94,7 +94,7 @@ class Form extends React.Component {
           <fieldset>
             <legend>{this.props.legend}</legend>
             { this.ErrorMessage() }
-            { this.props.formContent }
+            { this.props.children || this.props.formContent }
             { this.Actions() }
           </fieldset>
         </form>
@@ -104,7 +104,8 @@ class Form extends React.Component {
 }
 
 Form.propTypes = {
-  formContent: PropTypes.node.isRequired,
+  children: PropTypes.node,
+  formContent: PropTypes.node,
   legend: PropTypes.string,
   status: PropTypes.object.isRequired,
   redirectPath: PropTypes.string,
