@@ -5,9 +5,9 @@ import React from "react";
 import Link from "react-router-dom/es/Link";
 import {onEnterPressed} from "../utils/Events";
 
-export const CroppedIcon = ({icon, alternateIcon, label, className, iconClassName}) => {
+export const CroppedIcon = ({icon, alternateIcon, label, className, iconClassName, ...props}) => {
   return (
-    <div className={className || ""}>
+    <div className={className || ""} {...props}>
       <div className="-elv-cropped-icon">
         <ImageIcon icon={icon} alternateIcon={alternateIcon} label={label} className={iconClassName || ""} />
       </div>
@@ -15,7 +15,7 @@ export const CroppedIcon = ({icon, alternateIcon, label, className, iconClassNam
   );
 };
 
-export const CroppedIconWithAction = ({icon, alternateIcon, label, actionText, onClick, className, children}) => {
+export const CroppedIconWithAction = ({icon, alternateIcon, label, actionText, onClick, className, children, ...props}) => {
   return (
     <div
       tabIndex="0"
@@ -24,7 +24,7 @@ export const CroppedIconWithAction = ({icon, alternateIcon, label, actionText, o
       onKeyPress={onEnterPressed(onClick)}
       className={className || ""}
     >
-      <div className="-elv-cropped-icon -elv-cropped-icon-with-action">
+      <div className="-elv-cropped-icon -elv-cropped-icon-with-action" {...props} >
         <ImageIcon icon={icon} alternateIcon={alternateIcon} label={label} />
         <div className="-elv-hover-action">
           <span>{actionText}</span>
@@ -35,7 +35,7 @@ export const CroppedIconWithAction = ({icon, alternateIcon, label, actionText, o
   );
 };
 
-export const ImageIcon = ({icon, alternateIcon, label, className}) => {
+export const ImageIcon = ({icon, alternateIcon, label, className, ...props}) => {
   const [error, setError] = React.useState(false);
 
   className = "-elv-icon " + (className || "");
@@ -47,31 +47,40 @@ export const ImageIcon = ({icon, alternateIcon, label, className}) => {
 
   if(currentIcon.startsWith("<svg")) {
     return (
-      <InlineSVG alt={label} className={className} src={currentIcon}/>
+      <InlineSVG alt={label} className={className} src={currentIcon} {...props} />
     );
   } else {
     return (
-      <img alt={label} className={className} src={currentIcon} onError={handleError} />
+      <img alt={label} className={className} src={currentIcon} onError={handleError} {...props} />
     );
   }
 };
 
-export const IconButton = ({icon, label, title, onClick, disabled=false, className}) => {
+export const IconButton = ({icon, label, title, onClick, disabled=false, className, ...props}) => {
   className = "-elv-icon-button " + (className || "");
 
   return (
-    <button className={className} type="button" role="button" aria-label={label} title={title} onClick={onClick} disabled={disabled}>
+    <button
+      {...props}
+      type="button"
+      role="button"
+      aria-label={label}
+      title={title}
+      onClick={onClick}
+      disabled={disabled}
+      className={className}
+    >
       <InlineSVG className="-elv-icon" alt={label} src={icon} />
     </button>
   );
 };
 
-export const IconLink = ({icon, label, to, className}) => {
+export const IconLink = ({icon, label, to, className, ...props}) => {
   className = "-elv-icon-link " + (className || "");
 
   return (
     <Link to={to} label={label} tabIndex={0} className={className}>
-      <div className="-elv-icon-wrapper">
+      <div className="-elv-icon-wrapper" {...props}>
         <ImageIcon icon={icon} className={className} label={label}/>
       </div>
     </Link>

@@ -29,15 +29,11 @@
   }
 
   &:hover:enabled {
-    svg {
-      color: $hover-color;
-    }
+    color: $hover-color;
   }
 
   &:active:enabled {
-    svg {
-      color: $active-color;
-    }
+    color: $active-color;
   }
 
   &:disabled {
