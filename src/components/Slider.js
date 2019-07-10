@@ -11,7 +11,8 @@ export class Range extends React.Component {
 
     this.state = {
       sliderElement: undefined,
-      hoverPosition: props.min
+      hoverPosition: props.min,
+      draggingHandle: undefined
     };
 
     this.WatchResize = this.WatchResize.bind(this);
@@ -29,6 +30,7 @@ export class Range extends React.Component {
   componentWillUnmount() {
     if(this.resizeObserver) {
       this.resizeObserver.disconnect();
+      this.resizeObserver = undefined;
     }
   }
 
@@ -75,6 +77,8 @@ export class Range extends React.Component {
     window.addEventListener("mousemove", this.Drag);
     window.addEventListener("mouseup", this.EndDrag);
 
+    this.state.sliderElement.style.cursor = "grab";
+
     this.HandleChange(event);
   }
 
@@ -88,6 +92,8 @@ export class Range extends React.Component {
     this.setState({
       draggingHandle: undefined
     });
+
+    this.state.sliderElement.style.cursor = "pointer";
 
     window.removeEventListener("mousemove", this.Drag);
     window.removeEventListener("mouseup", this.EndDrag);
@@ -276,7 +282,14 @@ export class Range extends React.Component {
 
   render() {
     return (
-      <div ref={this.WatchResize} className={`-elv-slider-container ${this.props.className || ""}`}>
+      <div
+        ref={this.WatchResize}
+        className={`
+          -elv-slider-container
+          ${this.props.showMarks ? "-elv-slider-with-marks" : ""}
+          ${this.props.className || ""}
+        `}
+      >
         { this.Slider() }
       </div>
     );

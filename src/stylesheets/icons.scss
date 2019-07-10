@@ -6,6 +6,10 @@
   fill: $color;
   height: 30px;
   width: 30px;
+
+  &.-elv-icon-with-loader {
+    background: transparent url("../icons/loading.gif") center no-repeat;
+  }
 }
 
 @mixin elv-icon-button($color, $hover-color, $active-color) {

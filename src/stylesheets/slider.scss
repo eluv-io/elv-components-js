@@ -3,8 +3,12 @@
 $slider-height: 12px;
 
 .-elv-slider-container {
-  height: fit-content;
+  height: $slider-height;
   width: 100%;
+
+  &.-elv-slider-with-marks {
+    height: calc(#{$slider-height} + 1.8em);
+  }
 }
 
 .-elv-slider {
@@ -24,7 +28,6 @@ $slider-height: 12px;
 
 .-elv-slider-active {
   background-color: $elv-color-darkgray;
-  cursor: pointer;
   height: $slider-height;
   opacity: 0.8;
   position: absolute;
@@ -32,7 +35,6 @@ $slider-height: 12px;
 
 .-elv-slider-handle {
   background-color: $elv-color-lightgray;
-  cursor: pointer;
   height: $slider-height;
   margin-left: -2px;
   position: absolute;

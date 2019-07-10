@@ -35,7 +35,7 @@
       }
 
       &.-elv-size-header {
-        width: 5em;
+        width: 7em;
       }
     }
 
@@ -75,6 +75,11 @@
 
         &.-elv-item-path {
           max-width: 150px;
+        }
+
+        &.-elv-item-status {
+          color: $elv-color-text-lighter;
+          text-align: center;
         }
       }
     }

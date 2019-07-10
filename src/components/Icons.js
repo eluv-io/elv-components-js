@@ -50,6 +50,7 @@ export const ImageIcon = ({icon, alternateIcon, label, className, ...props}) => 
       <InlineSVG alt={label} className={className} src={currentIcon} {...props} />
     );
   } else {
+    className = "-elv-icon-with-loader " + className;
     return (
       <img alt={label} className={className} src={currentIcon} onError={handleError} {...props} />
     );
