@@ -50,9 +50,18 @@ export const ImageIcon = ({icon, alternateIcon, label, className, ...props}) => 
       <InlineSVG alt={label} className={className} src={currentIcon} {...props} />
     );
   } else {
-    className = "-elv-icon-with-loader " + className;
+    const [loading, setLoading] = React.useState(true);
+    className = loading ?  "-elv-icon-with-loader " + className : className;
+
     return (
-      <img alt={label} className={className} src={currentIcon} onError={handleError} {...props} />
+      <img
+        alt={label}
+        className={className}
+        src={currentIcon}
+        onLoad={() => setLoading(false)}
+        onError={handleError}
+        {...props}
+      />
     );
   }
 };
