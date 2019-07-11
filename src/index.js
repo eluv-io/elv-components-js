@@ -1,10 +1,10 @@
 export * from "./components/AnimatedIcons";
+export * from "./components/Copy";
 export * from "./components/Icons";
 export * from "./components/Slider";
 export * from "./utils/Events";
 
 export {default as Action} from "./components/Action";
-export {default as AsyncCopy} from "./components/AsyncCopy";
 export {default as Balance} from "./components/Balance";
 export {default as BrowseWidget} from "./components/BrowseWidget";
 export {default as Confirm} from "./components/Confirm";
