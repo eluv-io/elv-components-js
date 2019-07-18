@@ -37,6 +37,7 @@ export const CroppedIconWithAction = ({icon, alternateIcon, label, actionText, o
 
 export const ImageIcon = ({icon, alternateIcon, label, className, ...props}) => {
   const [error, setError] = React.useState(false);
+  const [loading, setLoading] = React.useState(true);
 
   className = "-elv-icon " + (className || "");
 
@@ -50,7 +51,6 @@ export const ImageIcon = ({icon, alternateIcon, label, className, ...props}) => 
       <InlineSVG alt={label} className={className} src={currentIcon} {...props} />
     );
   } else {
-    const [loading, setLoading] = React.useState(true);
     className = loading ?  "-elv-icon-with-loader " + className : className;
 
     return (
