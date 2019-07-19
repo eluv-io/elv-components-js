@@ -6,17 +6,18 @@ export const Copy = ({copy, children}) => {
   const [copied, setCopied] = useState(false);
 
   return (
-    <ToolTip content={copied ? "Copied" : "Copy to Clipboard"}>
-      <span className="-elv-copyable">
-        <span
-          onClick={() => {
-            CopyText(copy);
-            setCopied(true);
-          }}
-          onMouseLeave={() => setCopied(false)}
-        >
-          { children }
-        </span>
+    <ToolTip
+      content={copied ? "Copied" : "Copy to Clipboard"}
+      onMouseLeave={() => setCopied(false)}
+    >
+      <span
+        className="-elv-copyable"
+        onClick={() => {
+          CopyText(copy);
+          setCopied(true);
+        }}
+      >
+        { children }
       </span>
     </ToolTip>
   );

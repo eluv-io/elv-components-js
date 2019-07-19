@@ -72,9 +72,24 @@ class ToolTip extends React.Component {
       React.cloneElement(
         React.Children.only(this.props.children),
         {
-          onMouseEnter: () => this.setState({hovering: true}),
-          onMouseLeave: () => this.setState({hovering: false}),
-          onMouseMove: ({clientX, clientY}) => this.MoveToolTip(clientX, clientY)
+          onMouseEnter: (e) => {
+            if(this.props.onMouseEnter) {
+              this.props.onMouseEnter(e);
+            }
+            this.setState({hovering: true});
+          },
+          onMouseLeave: (e) => {
+            if(this.props.onMouseLeave) {
+              this.props.onMouseLeave(e);
+            }
+            this.setState({hovering: false});
+          },
+          onMouseMove: (e) => {
+            if(this.props.onMouseMove) {
+              this.props.onMouseMove(e);
+            }
+            this.MoveToolTip(e.clientX, e.clientY);
+          }
         }
       )
     );
@@ -86,7 +101,10 @@ ToolTip.propTypes = {
     PropTypes.string,
     PropTypes.node
   ]),
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
+  onMouseEnter: PropTypes.func,
+  onMouseLeave: PropTypes.func,
+  onMouseMove: PropTypes.func,
 };
 
 export default ToolTip;
