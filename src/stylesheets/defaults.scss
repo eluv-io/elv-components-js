@@ -6,7 +6,7 @@
 
 html,
 body {
-  background-color: $elv-color-bg-light;
+  background-color: $elv-color-bg-white;
   color: $elv-color-text-dark;
   font-family: $elv-font-default;
   font-size: 16px;
@@ -86,7 +86,6 @@ input {
 input,
 textarea,
 pre {
-  background-color: $elv-color-bg-light;
   border: 1px solid $elv-color-lightgray;
   padding: 0 $elv-spacing-xxs;
 }
