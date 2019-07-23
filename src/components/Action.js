@@ -4,7 +4,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import Link from "react-router-dom/es/Link";
 
-const Action = ({label, type, to, onClick, className, disabled=false, children, button=true}) => {
+const Action = ({label, type, to, onClick, className, disabled=false, hidden=false, children, button=true}) => {
+  if(hidden) { return null; }
+
   className = className || "";
   if(button) { className = className + " -elv-button"; }
 
@@ -51,7 +53,8 @@ Action.propTypes = {
   to: PropTypes.string,
   onClick: PropTypes.func,
   className: PropTypes.string,
-  disabled: PropTypes.bool
+  disabled: PropTypes.bool,
+  hidden: PropTypes.bool
 };
 
 export default Action;

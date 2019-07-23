@@ -66,7 +66,9 @@ export const ImageIcon = ({icon, alternateIcon, label, className, ...props}) => 
   }
 };
 
-export const IconButton = ({icon, label, title, onClick, disabled=false, className, ...props}) => {
+export const IconButton = ({icon, label, title, onClick, disabled=false, hidden=false, className, ...props}) => {
+  if(hidden) { return null; }
+
   className = "-elv-icon-button " + (className || "");
 
   return (
@@ -75,7 +77,7 @@ export const IconButton = ({icon, label, title, onClick, disabled=false, classNa
       type="button"
       role="button"
       aria-label={label}
-      title={title}
+      title={title || label}
       onClick={onClick}
       disabled={disabled}
       className={className}
