@@ -22,4 +22,22 @@
       background-color: $elv-color-lightestgray;
     }
   }
+
+  // Alternate style for secondary tabs
+  &.secondary {
+    border: 0;
+
+    .-elv-tab {
+      border: 1px solid $elv-color-lightgray;
+      border-right: 0;
+
+      &:last-child {
+        border-right: 1px solid $elv-color-lightgray;
+      }
+
+      &.selected {
+        background: $elv-color-lightgray;
+      }
+    }
+  }
 }
