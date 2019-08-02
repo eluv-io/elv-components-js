@@ -46,6 +46,7 @@ class ToolTip extends React.Component {
 
     if(show && !!this.props.content) {
       ToolTip.toolTip.style.display = "flex";
+      ToolTip.toolTip.className = `${this.props.className || ""} -elv-tooltip`;
       ToolTip.owner = this;
 
       render(
@@ -63,7 +64,15 @@ class ToolTip extends React.Component {
   MoveToolTip(x, y) {
     if(!ToolTip.toolTip) { return; }
 
-    ToolTip.toolTip.style.left = Math.max(0, x - ToolTip.toolTip.offsetWidth / 2) + "px";
+    const maxLeft = window.innerWidth - ToolTip.toolTip.offsetWidth - 10;
+
+    ToolTip.toolTip.style.left =
+      Math.max(0,
+        Math.min(
+          maxLeft,
+          x - ToolTip.toolTip.offsetWidth / 2
+        )
+      ) + "px";
     ToolTip.toolTip.style.top = y + 30 + "px";
   }
 
@@ -77,6 +86,7 @@ class ToolTip extends React.Component {
               this.props.onMouseEnter(e);
             }
             this.setState({hovering: true});
+            this.MoveToolTip(e.clientX, e.clientY);
           },
           onMouseLeave: (e) => {
             if(this.props.onMouseLeave) {
@@ -97,6 +107,7 @@ class ToolTip extends React.Component {
 }
 
 ToolTip.propTypes = {
+  className: PropTypes.string,
   content: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.node
