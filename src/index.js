@@ -5,6 +5,7 @@ export * from "./components/Slider";
 export * from "./utils/Events";
 
 export {default as Action} from "./components/Action";
+export {default as AsyncComponent} from "./components/AsyncComponent";
 export {default as Balance} from "./components/Balance";
 export {default as BrowseWidget} from "./components/BrowseWidget";
 export {default as Confirm} from "./components/Confirm";

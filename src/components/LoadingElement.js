@@ -18,7 +18,7 @@ class LoadingElement extends React.Component {
 
       const loadingIcon = <BallSpin/>;
       let className = "-elv-loading-element "  + (this.props.loadingClassname || "");
-      if(this.props.fullPage) { className += "loading-page-container"; }
+      if(this.props.fullPage) { className += " -elv-loading-element-fullpage"; }
 
       return (
         <div className={className}>
