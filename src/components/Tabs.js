@@ -33,13 +33,15 @@ Tabs.propTypes = {
     PropTypes.arrayOf(
       PropTypes.oneOfType([
         PropTypes.string,
-        PropTypes.bool
+        PropTypes.bool,
+        PropTypes.number
       ])
     )).isRequired,
   selected: PropTypes.oneOfType([
     PropTypes.string,
-    PropTypes.bool
-  ]).isRequired,
+    PropTypes.bool,
+    PropTypes.number
+  ]),
   onChange: PropTypes.func.isRequired,
   className: PropTypes.string
 };

@@ -87,14 +87,24 @@ export const IconButton = ({icon, label, title, onClick, disabled=false, hidden=
   );
 };
 
-export const IconLink = ({icon, label, to, className, ...props}) => {
+export const IconLink = ({icon, label, href, to, className, ...props}) => {
   className = "-elv-icon-link " + (className || "");
 
-  return (
-    <Link to={to} label={label} tabIndex={0} className={className}>
-      <div className="-elv-icon-wrapper" {...props}>
-        <ImageIcon icon={icon} className={className} label={label}/>
-      </div>
-    </Link>
-  );
+  if(href) {
+    return (
+      <a href={href} className={className}>
+        <div className="-elv-icon-wrapper" {...props}>
+          <ImageIcon icon={icon} className={className} label={label}/>
+        </div>
+      </a>
+    );
+  } else {
+    return (
+      <Link to={to} label={label} tabIndex={0} className={className}>
+        <div className="-elv-icon-wrapper" {...props}>
+          <ImageIcon icon={icon} className={className} label={label}/>
+        </div>
+      </Link>
+    );
+  }
 };
