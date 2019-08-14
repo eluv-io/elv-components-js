@@ -3,7 +3,6 @@
 @mixin elv-icon($color) {
   color: $color;
   display: block;
-  fill: $color;
   height: 30px;
   width: 30px;
 
@@ -19,17 +18,12 @@
   height: 30px;
   padding: 0;
 
-  i {
+  svg {
     @include elv-icon($color);
-
     height: 100%;
     margin: 0;
     padding: 0;
     width: auto;
-  }
-
-  svg {
-    height: 100%;
   }
 
   &:hover:enabled {

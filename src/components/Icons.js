@@ -1,6 +1,6 @@
 import "../stylesheets/icons.scss";
 
-import InlineSVG from "svg-inline-react";
+import SVG from "react-inlinesvg";
 import React from "react";
 import Link from "react-router-dom/es/Link";
 import {onEnterPressed} from "../utils/Events";
@@ -48,7 +48,7 @@ export const ImageIcon = ({icon, alternateIcon, label, className, ...props}) => 
 
   if(currentIcon.startsWith("<svg")) {
     return (
-      <InlineSVG alt={label} className={className} src={currentIcon} {...props} />
+      <SVG alt={label} className={className} src={currentIcon} {...props} />
     );
   } else {
     className = loading ?  "-elv-icon-with-loader " + className : className;
@@ -82,7 +82,7 @@ export const IconButton = ({icon, label, title, onClick, disabled=false, hidden=
       disabled={disabled}
       className={className}
     >
-      <InlineSVG className="-elv-icon" alt={label} src={icon} />
+      <SVG className="-elv-icon" alt={label} src={icon} />
     </button>
   );
 };
