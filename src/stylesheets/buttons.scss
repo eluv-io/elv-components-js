@@ -16,7 +16,7 @@ $elv-button-border-hover: $elv-color-mediumblue !default;
   color: $elv-button-color;
   cursor: pointer;
   display: inline-block;
-  font-size: 14px;
+  font-size: $elv-font-m;
   min-width: 120px;
   padding: $elv-spacing-mxs $elv-spacing-s;
   text-align: center;
