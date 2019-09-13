@@ -62,18 +62,31 @@ class ToolTip extends React.Component {
   }
 
   MoveToolTip(x, y) {
-    if(!ToolTip.toolTip) { return; }
+    if(!this.props.content) {
+      ToolTip.toolTip.style.visibility = "hidden";
+    }
 
-    const maxLeft = window.innerWidth - ToolTip.toolTip.offsetWidth - 10;
+    if(!ToolTip.toolTip || !this.props.content) { return; }
+
+    const viewportWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+    const viewportHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+    const maxLeft = viewportWidth - ToolTip.toolTip.offsetWidth - 20;
 
     ToolTip.toolTip.style.left =
       Math.max(0,
         Math.min(
           maxLeft,
-          x - ToolTip.toolTip.offsetWidth / 2
+          x + 30 - ToolTip.toolTip.offsetWidth / 2
         )
       ) + "px";
-    ToolTip.toolTip.style.top = y + 30 + "px";
+
+    if(y > viewportHeight / 2) {
+      ToolTip.toolTip.style.top = window.pageYOffset + (y - 10 - ToolTip.toolTip.offsetHeight) + "px";
+    } else {
+      ToolTip.toolTip.style.top = y + 30 + "px";
+    }
+
+    ToolTip.toolTip.style.visibility = "visible";
   }
 
   render() {
