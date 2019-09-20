@@ -15,3 +15,4 @@ export {default as Modal} from "./components/Modal";
 export {default as RadioSelect} from "./components/RadioSelect";
 export {default as Tabs} from "./components/Tabs";
 export {default as ToolTip} from "./components/Tooltip";
+export {default as TraversableJSON} from "./components/TraversableJSON";

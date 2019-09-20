@@ -5,17 +5,41 @@ import React from "react";
 import Link from "react-router-dom/es/Link";
 import {onEnterPressed} from "../utils/Events";
 
-export const CroppedIcon = ({icon, alternateIcon, label, className, iconClassName, ...props}) => {
+export const CroppedIcon = ({
+  icon,
+  alternateIcon,
+  label,
+  className,
+  iconClassName,
+  useLoadingIndicator=false,
+  ...props
+}) => {
   return (
     <div className={className || ""} {...props}>
       <div className="-elv-cropped-icon">
-        <ImageIcon icon={icon} alternateIcon={alternateIcon} label={label} className={iconClassName || ""} />
+        <ImageIcon
+          icon={icon}
+          alternateIcon={alternateIcon}
+          label={label}
+          className={iconClassName || ""}
+          useLoadingIndicator={useLoadingIndicator}
+        />
       </div>
     </div>
   );
 };
 
-export const CroppedIconWithAction = ({icon, alternateIcon, label, actionText, onClick, className, children, ...props}) => {
+export const CroppedIconWithAction = ({
+  icon,
+  alternateIcon,
+  label,
+  actionText,
+  onClick,
+  className,
+  useLoadingIndicator=false,
+  children,
+  ...props
+}) => {
   return (
     <div
       tabIndex="0"
@@ -25,7 +49,7 @@ export const CroppedIconWithAction = ({icon, alternateIcon, label, actionText, o
       className={className || ""}
     >
       <div className="-elv-cropped-icon -elv-cropped-icon-with-action" {...props} >
-        <ImageIcon icon={icon} alternateIcon={alternateIcon} label={label} />
+        <ImageIcon icon={icon} alternateIcon={alternateIcon} label={label} useLoadingIndicator={useLoadingIndicator}/>
         <div className="-elv-hover-action">
           <span>{actionText}</span>
           { children }
