@@ -7,7 +7,7 @@
   }
 
   .json-entry {
-    margin: $elv-spacing-xs 0;
+    margin-top: $elv-spacing-xs;
     max-width: 100%;
     overflow: hidden;
     white-space: normal;
@@ -26,6 +26,6 @@
 
   .literal {
     color: $elv-color-text-light;
-    margin: $elv-spacing-xs 0;
+    margin-top: $elv-spacing-xs;
   }
 }
