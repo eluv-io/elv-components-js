@@ -50,7 +50,7 @@ $slider-height: 12px;
   @include elv-no-select;
   color: $elv-color-mediumgray;
   cursor: auto;
-  height: calc(25px + 1em);
+  height: calc(25px + 1rem);
   position: relative;
 
   .-elv-slider-mark {

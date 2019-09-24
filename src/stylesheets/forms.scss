@@ -2,7 +2,8 @@
 
 @mixin elv-form {
   display: block;
-  width: 600px;
+  max-width: 100%;
+  width: 60rem;
 
   fieldset {
     border: 1px solid $elv-color-gray;
@@ -12,7 +13,7 @@
   .form-content {
     display: grid;
     grid-gap: $elv-spacing-s;
-    grid-template-columns: 1fr 3fr;
+    grid-template-columns: minmax(5rem, 1fr) 5fr;
     margin: $elv-spacing-m 0 $elv-spacing-l;
 
     &.no-margins {
@@ -44,13 +45,13 @@
     &[type="checkbox"] {
       cursor: pointer;
       margin: 0;
-      width: 1em;
+      width: 1rem;
     }
   }
 
   textarea {
     font-family: inherit;
-    height: 10em;
+    height: 15rem;
     padding: $elv-spacing-xxs;
   }
 

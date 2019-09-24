@@ -4,7 +4,7 @@ import React, {useEffect, useState} from "react";
 import UrlJoin from "url-join";
 import {onEnterPressed} from "../index";
 
-const TraversableJSON = ({expand=false, path="", label, json}) => {
+const TraversableJson = ({expand=false, path="", label, json}) => {
   const [show, setShow] = useState(expand);
   const [expandChildren, setExpandChildren] = useState(expand);
 
@@ -25,7 +25,7 @@ const TraversableJSON = ({expand=false, path="", label, json}) => {
           <div className="indented">
             {
               json.map((value, i) => (
-                <TraversableJSON
+                <TraversableJson
                   key={`json-key-${path}-${i}`}
                   expand={expandChildren}
                   path={UrlJoin(path, i.toString())}
@@ -43,7 +43,7 @@ const TraversableJSON = ({expand=false, path="", label, json}) => {
     expandable = true;
     content = Object.keys(json).map(key => {
       return (
-        <TraversableJSON
+        <TraversableJson
           key={`json-key-${path}-${key}`}
           expand={expandChildren}
           path={UrlJoin(path, key)}
@@ -120,4 +120,4 @@ const TraversableJSON = ({expand=false, path="", label, json}) => {
   );
 };
 
-export default TraversableJSON;
+export default TraversableJson;
