@@ -11,7 +11,13 @@ class Form extends React.Component {
     super(props);
 
     this.state = {
-      cancel: false
+      cancel: false,
+      status: {
+        loading: false,
+        completed: false,
+        error: false,
+        errorMessage: ""
+      }
     };
 
     this.HandleSubmit = this.HandleSubmit.bind(this);
@@ -20,14 +26,49 @@ class Form extends React.Component {
 
   async HandleSubmit(event) {
     event.preventDefault();
-    if(!this.props.status.loading) {
+
+    if(!this.state.status.loading) {
+      this.setState({
+        status: {
+          loading: true,
+          completed: false,
+          error: false,
+          errorMessage: ""
+        }
+      });
+
       try {
         await this.props.OnSubmit(event);
+
+        this.setState({
+          status: {
+            loading: false,
+            completed: false,
+            error: false,
+            errorMessage: ""
+          }
+        });
 
         if(this.props.OnComplete) {
           await this.props.OnComplete();
         }
+
+        this.setState({
+          status: {
+            completed: true
+          }
+        });
       } catch(error) {
+        const errorMessage = typeof error === "object" ? error.errorMessage : error;
+        this.setState({
+          status: {
+            loading: false,
+            completed: false,
+            error: true,
+            errorMessage: errorMessage
+          }
+        });
+
         if(this.props.OnError) {
           await this.props.OnError(error);
         }
@@ -48,11 +89,11 @@ class Form extends React.Component {
   }
 
   ErrorMessage() {
-    if(!this.props.status.error || !this.props.status.errorMessage) { return null; }
+    if(!this.state.status.error || !this.state.status.errorMessage) { return null; }
 
     return (
       <div className="form-error">
-        <span>{this.props.status.errorMessage}</span>
+        <span>{this.state.status.errorMessage}</span>
       </div>
     );
   }
@@ -69,7 +110,7 @@ class Form extends React.Component {
 
     return (
       <div className="form-actions">
-        <LoadingElement loading={this.props.status.loading}>
+        <LoadingElement loading={this.state.status.loading}>
           { cancelButton }
           <Action type="submit">{this.props.submitText || "Submit"}</Action>
         </LoadingElement>
@@ -78,7 +119,7 @@ class Form extends React.Component {
   }
 
   render() {
-    if(this.props.status.completed && this.props.redirectPath) {
+    if(this.state.status.completed && this.props.redirectPath) {
       return (
         <Redirect push to={ this.props.redirectPath } />
       );
@@ -89,16 +130,14 @@ class Form extends React.Component {
     }
 
     return (
-      <div className="form-container">
-        <form onSubmit={this.HandleSubmit} className="-elv-form">
-          <fieldset>
-            <legend>{this.props.legend}</legend>
-            { this.ErrorMessage() }
-            { this.props.children || this.props.formContent }
-            { this.Actions() }
-          </fieldset>
-        </form>
-      </div>
+      <form onSubmit={this.HandleSubmit} className={`${this.props.className || ""} -elv-form`}>
+        <fieldset>
+          <legend>{this.props.legend}</legend>
+          { this.ErrorMessage() }
+          { this.props.children || this.props.formContent }
+          { this.Actions() }
+        </fieldset>
+      </form>
     );
   }
 }
@@ -107,7 +146,6 @@ Form.propTypes = {
   children: PropTypes.node,
   formContent: PropTypes.node,
   legend: PropTypes.string,
-  status: PropTypes.object.isRequired,
   redirectPath: PropTypes.string,
   cancelPath: PropTypes.string,
   submitText: PropTypes.string,
@@ -115,7 +153,8 @@ Form.propTypes = {
   OnSubmit: PropTypes.func.isRequired,
   OnCancel: PropTypes.func,
   OnComplete: PropTypes.func,
-  OnError: PropTypes.func
+  OnError: PropTypes.func,
+  className: PropTypes.string
 };
 
 export default Form;

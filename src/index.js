@@ -10,6 +10,7 @@ export {default as AsyncComponent} from "./components/AsyncComponent";
 export {default as Balance} from "./components/Balance";
 export {default as BrowseWidget} from "./components/BrowseWidget";
 export {default as Confirm} from "./components/Confirm";
+export {default as Debounce} from "./utils/Debounce";
 export {default as Form} from "./components/Form";
 export {default as JsonInput} from "./components/JsonInput";
 export {default as LoadingElement} from "./components/LoadingElement";

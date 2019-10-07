@@ -13,7 +13,7 @@
   .form-content {
     display: grid;
     grid-gap: $elv-spacing-s;
-    grid-template-columns: minmax(5rem, 1fr) 5fr;
+    grid-template-columns: minmax(7rem, 1fr) 5fr;
     margin: $elv-spacing-m 0 $elv-spacing-l;
 
     &.no-margins {

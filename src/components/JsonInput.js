@@ -15,12 +15,13 @@ const JsonTextArea = ({name, value, onChange, className=""}) => {
       setModifiedJSON(json);
 
       event.target.value = json;
-      onChange(event);
 
       setError(undefined);
     } catch(error) {
       setError(error.message);
     }
+
+    onChange(event);
   };
 
   return (

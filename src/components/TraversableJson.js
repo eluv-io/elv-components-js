@@ -40,18 +40,21 @@ const TraversableJson = ({expand=false, path="", label, json}) => {
       );
     }
   } else if(json !== null && typeof json === "object") {
-    expandable = true;
-    content = Object.keys(json).map(key => {
-      return (
-        <TraversableJson
-          key={`json-key-${path}-${key}`}
-          expand={expandChildren}
-          path={UrlJoin(path, key)}
-          label={key}
-          json={json[key]}
-        />
-      );
-    });
+    if(Object.keys(json).length > 0) {
+      expandable = true;
+
+      content = Object.keys(json).map(key => {
+        return (
+          <TraversableJson
+            key={`json-key-${path}-${key}`}
+            expand={expandChildren}
+            path={UrlJoin(path, key)}
+            label={key}
+            json={json[key]}
+          />
+        );
+      });
+    }
   } else if(typeof json === "string") {
     content = <div className="literal">{JSON.stringify(json)}</div>;
   } else if(typeof json === "boolean") {
