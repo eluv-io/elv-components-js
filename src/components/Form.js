@@ -59,7 +59,9 @@ class Form extends React.Component {
           }
         });
       } catch(error) {
-        const errorMessage = typeof error === "object" ? error.errorMessage : error;
+        const errorMessage = typeof error === "object" ?
+          error.errorMessage || error.message : error;
+        
         this.setState({
           status: {
             loading: false,
