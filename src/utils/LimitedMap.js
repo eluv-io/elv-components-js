@@ -1,4 +1,4 @@
-export const LimitedMap = async (limit, array, f) => {
+const LimitedMap = async (limit, array, f) => {
   let index = 0;
   let locked = false;
   const nextIndex = async () => {
