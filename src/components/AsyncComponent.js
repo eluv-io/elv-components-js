@@ -1,31 +1,37 @@
+import "../stylesheets/async-component.scss";
+
 import React from "react";
 import PropTypes from "prop-types";
 import {BallSpin} from "./AnimatedIcons";
+import ErrorHandler from "./ErrorHandler";
 
 class AsyncComponent extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      error: undefined,
       loading: true
     };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     this.mounted = true;
 
-    this.props.Load()
-      .then(() => {
-        if(this.mounted) {
-          this.setState({loading: false});
-        }
-      })
-      .catch(error => {
-        if(this.mounted) {
-          this.setState({error});
-        }
-      });
+    this.setState({
+      loading: true
+    });
+
+    try {
+      await this.props.Load();
+
+      if (this.mounted) {
+        this.setState({
+          loading: false
+        });
+      }
+    } catch(error) {
+      this.setState({error});
+    }
   }
 
   componentWillUnmount() {
@@ -34,16 +40,13 @@ class AsyncComponent extends React.Component {
 
   render() {
     if(this.state.error) {
-      return (
-        <div className="async-component-error">
-          Error: {this.state.error.message}
-        </div>
-      );
+      // Throw error synchronously for ErrorHandler to catch
+      throw this.state.error;
     }
 
     if(this.state.loading) {
       return (
-        <div className="async-component-loading">
+        <div className="-elv-async-component -elv-async-component-loading">
           <BallSpin />
         </div>
       );
@@ -59,4 +62,4 @@ AsyncComponent.propTypes = {
   children: PropTypes.node
 };
 
-export default AsyncComponent;
+export default ErrorHandler(AsyncComponent);

@@ -24,6 +24,14 @@ class Form extends React.Component {
     this.HandleCancel = this.HandleCancel.bind(this);
   }
 
+  componentDidMount() {
+    this.mounted = true;
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
+  }
+
   async HandleSubmit(event) {
     event.preventDefault();
 
@@ -53,15 +61,17 @@ class Form extends React.Component {
           await this.props.OnComplete();
         }
 
-        this.setState({
-          status: {
-            completed: true
-          }
-        });
+        if(this.mounted) {
+          this.setState({
+            status: {
+              completed: true
+            }
+          });
+        }
       } catch(error) {
         const errorMessage = typeof error === "object" ?
           error.errorMessage || error.message : error;
-        
+
         this.setState({
           status: {
             loading: false,
