@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import {CopyText} from "../utils/Clipboard";
 import ToolTip from "./Tooltip";
 
-export const Copy = ({copy, children}) => {
+export const Copy = ({copy, children, className}) => {
   const [copied, setCopied] = useState(false);
 
   return (
@@ -11,7 +11,7 @@ export const Copy = ({copy, children}) => {
       onMouseLeave={() => setCopied(false)}
     >
       <span
-        className="-elv-copyable"
+        className={`${className || ""} -elv-copyable`}
         onClick={() => {
           CopyText(copy);
           setCopied(true);

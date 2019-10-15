@@ -17,6 +17,12 @@ class AsyncComponent extends React.Component {
   async componentDidMount() {
     this.mounted = true;
 
+    // Wait a bit to avoid react mount-unmount bounce
+    await new Promise(resolve => setTimeout(resolve, 50));
+    if(!this.mounted) {
+      return;
+    }
+
     this.setState({
       loading: true
     });
