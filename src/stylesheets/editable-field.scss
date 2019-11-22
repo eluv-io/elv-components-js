@@ -10,6 +10,12 @@
     }
   }
 
+  & > span {
+    &:not(:empty) {
+      margin-right: $elv-spacing-xs;
+    }
+  }
+
   button {
     height: $elv-font-l;
     width: $elv-font-l;

@@ -16,14 +16,14 @@ const LimitedMap = async (limit, array, f) => {
 
   let results = [];
   let active = 0;
-  return new Promise(async (resolve, reject) => {
+  return new Promise((resolve, reject) => {
     [...Array(limit || 1)].forEach(async () => {
       active += 1;
       let index = await nextIndex();
 
       while(index < array.length) {
         try {
-          results[index] = await f(array[index]);
+          results[index] = await f(array[index], index);
         } catch(error) {
           reject(error);
         }

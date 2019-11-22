@@ -1,31 +1,53 @@
 @import "styles";
 
-.traversable-json {
-  &.indented,
-  .indented {
+.-elv-traversable-json {
+  &.-elv-indented,
+  .-elv-indented {
     padding-left: $elv-spacing-m;
   }
 
-  .json-entry {
+  .-elv-json-entry {
     margin-top: $elv-spacing-xs;
     max-width: 100%;
     overflow: hidden;
     white-space: normal;
   }
 
-  .expand-button {
-    @include elv-no-select;
-    color: $elv-color-mediumgray;
-    padding: 0 $elv-spacing-xs;
+  label {
+    margin-right: $elv-spacing-xs;
   }
 
-  .expand-button,
+  .-elv-json-entry-literal {
+    align-items: center;
+    display: flex;
+  }
+
+  .-elv-actions {
+    align-items: center;
+    display: flex;
+  }
+
+  .-elv-expand-button,
+  button {
+    @include elv-no-select;
+    color: $elv-color-mediumgray;
+    height: $elv-font-l;
+    padding: 0 $elv-spacing-xs;
+
+    &:last-child {
+      padding-left: 0;
+    }
+  }
+
+  .-elv-expand-button,
   label {
     cursor: pointer;
   }
 
-  .literal {
+  .-elv-literal {
     color: $elv-color-text-light;
-    margin-top: $elv-spacing-xs;
+    padding: 0 $elv-spacing-xs;
+    white-space: normal;
+    word-break: break-all;
   }
 }

@@ -75,7 +75,9 @@ class EditableField extends React.Component {
   Display() {
     let display = <div>{this.props.value}</div>;
 
-    if(this.props.truncate && this.props.lines) {
+    if(this.props.children) {
+      display = this.props.children;
+    } else if(this.props.value && this.props.truncate && this.props.lines) {
       display = (
         <Truncate
           className={`-elv-truncated-field ${this.state.showAll ? "" : "truncated"}`}
@@ -108,6 +110,7 @@ class EditableField extends React.Component {
 }
 
 EditableField.propTypes = {
+  children: PropTypes.element,
   type: PropTypes.string,
   value: PropTypes.oneOfType([
     PropTypes.string,

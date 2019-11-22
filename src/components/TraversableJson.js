@@ -1,12 +1,44 @@
 import "../stylesheets/traversable-json.scss";
 
 import React, {useEffect, useState} from "react";
+import PropTypes from "prop-types";
+import EditIcon from "../icons/edit.svg";
+import SaveIcon from "../icons/check.svg";
+import DeleteIcon from "../icons/trash.svg";
 import UrlJoin from "url-join";
-import {onEnterPressed} from "../index";
+import {IconButton, onEnterPressed} from "../index";
+import Confirm from "./Confirm";
 
-const TraversableJson = ({expand=false, path="", label, json}) => {
+const TraversableJson = ({
+  label,
+  json,
+  editable=false,
+  onChange,
+  onDelete,
+  deleteMessage,
+  expand=false,
+  path=""
+}) => {
   const [show, setShow] = useState(expand);
   const [expandChildren, setExpandChildren] = useState(expand);
+  const [editing, setEditing] = useState(false);
+  const [editValue, setEditValue] = useState(JSON.stringify(json || "", null, 2));
+
+  const Save = () => {
+    setEditing(false);
+    if(onChange) {
+      let value = editValue;
+      if(parseInt(value).toString() === value) {
+        value = parseInt(value);
+      } else if(parseFloat(value).toString() === value) {
+        value = parseFloat(value);
+      }
+
+      if(value === json) { return; }
+
+      onChange({path, json: value});
+    }
+  };
 
   useEffect(() => {
     setShow(expand);
@@ -14,15 +46,23 @@ const TraversableJson = ({expand=false, path="", label, json}) => {
   }, [expand]);
 
   let content, expandable;
-  if(Array.isArray(json)) {
+  if(editing) {
+    content = (
+      <input
+        value={editValue}
+        onKeyPress={onEnterPressed(Save)}
+        onChange={event => setEditValue(event.target.value)}
+      />
+    );
+  } else if(Array.isArray(json)) {
     if(json.length === 0) {
-      content = <div className="literal">[ ]</div>;
+      content = <div className="-elv-literal">[ ]</div>;
     } else {
       expandable = true;
       content = (
-        <React.Fragment>
+        <div className="-elv-indented">
           [
-          <div className="indented">
+          <div className="-elv-indented">
             {
               json.map((value, i) => (
                 <TraversableJson
@@ -31,12 +71,16 @@ const TraversableJson = ({expand=false, path="", label, json}) => {
                   path={UrlJoin(path, i.toString())}
                   label={i.toString()}
                   json={value}
+                  editable={editable}
+                  onChange={onChange}
+                  onDelete={onDelete}
+                  deleteMessage={deleteMessage}
                 />
               ))
             }
           </div>
           ]
-        </React.Fragment>
+        </div>
       );
     }
   } else if(json !== null && typeof json === "object") {
@@ -45,41 +89,47 @@ const TraversableJson = ({expand=false, path="", label, json}) => {
 
       content = Object.keys(json).map(key => {
         return (
-          <TraversableJson
-            key={`json-key-${path}-${key}`}
-            expand={expandChildren}
-            path={UrlJoin(path, key)}
-            label={key}
-            json={json[key]}
-          />
+          <div className="-elv-indented">
+            <TraversableJson
+              key={`json-key-${path}-${key}`}
+              expand={expandChildren}
+              path={UrlJoin(path, key)}
+              label={key}
+              json={json[key]}
+              editable={editable}
+              onChange={onChange}
+              onDelete={onDelete}
+              deleteMessage={deleteMessage}
+            />
+          </div>
         );
       });
     }
   } else if(typeof json === "string") {
-    content = <div className="literal">{JSON.stringify(json)}</div>;
+    content = <div className="-elv-literal">{JSON.stringify(json)}</div>;
   } else if(typeof json === "boolean") {
-    content = <div className="literal">{json ? "true" : "false"}</div>;
+    content = <div className="-elv-literal">{json ? "true" : "false"}</div>;
   } else if(json === null || typeof json === "undefined") {
-    content = <div className="literal">null</div>;
+    content = <div className="-elv-literal">null</div>;
   } else {
-    content = <div className="literal">{json}</div>;
+    content = <div className="-elv-literal">{json}</div>;
   }
 
   // Top level component
   if(!path) {
     return (
-      <div className="traversable-json">
+      <div className="-elv-traversable-json">
         { content }
       </div>
     );
   }
 
   let expandButton;
-  if(expandable) {
+  if(expandable && !editing) {
     expandButton = (
       <span
         hidden={!expandable || (show && expandChildren)}
-        className="expand-button"
+        className="-elv-expand-button"
         tabIndex={0}
         role={"button"}
         onClick={() => {
@@ -98,8 +148,50 @@ const TraversableJson = ({expand=false, path="", label, json}) => {
     );
   }
 
+  let editButton;
+  if(!expandable && editable && onChange) {
+    if(editing) {
+      editButton = (
+        <IconButton
+          className="-elv-json-edit-button"
+          onClick={Save}
+          icon={SaveIcon}
+        />
+      );
+    } else {
+      editButton = (
+        <IconButton
+          className="-elv-json-edit-button"
+          onClick={() => {
+            setEditValue(expandable ? JSON.stringify(json, null, 2) : json);
+            setEditing(true);
+          }}
+          icon={EditIcon}
+        />
+      );
+    }
+  }
+
+  let deleteButton;
+  if(editable && onDelete) {
+    deleteButton = (
+      <IconButton
+        className="-elv-json-edit-button"
+        onClick={async () => {
+          await Confirm({
+            message: deleteMessage,
+            onConfirm: async () => {
+              onDelete({path});
+            }
+          });
+        }}
+        icon={DeleteIcon}
+      />
+    );
+  }
+
   return (
-    <div className="json-entry">
+    <div className={`-elv-json-entry ${expandable ? "" : "-elv-json-entry-literal"}`}>
       <label
         onClick={() => {
           if(show) { setExpandChildren(false); }
@@ -113,14 +205,25 @@ const TraversableJson = ({expand=false, path="", label, json}) => {
         aria-label={`${show ? "Collapse" : "Expand"} ${label}`}
         title={`${show ? "Collapse" : "Expand"} ${label}`}
       >
-        {label}
+        {`${label}${show || editing ? ":" : ""}`}
       </label>
       { expandButton }
-      <div className="indented">
-        { show ? content : null }
-      </div>
+      { show || editing ? content : null }
+      { show || editing ? editButton : null }
+      { show || editing ? null : deleteButton }
     </div>
   );
+};
+
+TraversableJson.propTypes = {
+  json: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.array
+  ]),
+  editable: PropTypes.bool,
+  onChange: PropTypes.func,
+  onDelete: PropTypes.func,
+  deleteMessage: PropTypes.string
 };
 
 export default TraversableJson;
