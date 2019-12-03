@@ -19,17 +19,19 @@ class ToolTip extends React.Component {
     this.MoveToolTip = this.MoveToolTip.bind(this);
   }
 
-  componentDidMount() {
-    ToolTip.CreateToolTip();
-  }
-
   componentDidUpdate() {
     if(ToolTip.toolTip) {
       this.ToggleTooltip(this.state.hovering);
     }
   }
 
+  componentWillUnmount() {
+    ToolTip.DestroyToolTip();
+  }
+
   static CreateToolTip() {
+    ToolTip.DestroyToolTip();
+
     if(ToolTip.toolTip) { return; }
 
     const newToolTip = document.createElement("div");
@@ -39,6 +41,13 @@ class ToolTip extends React.Component {
     document.body.appendChild(newToolTip);
 
     ToolTip.toolTip = newToolTip;
+  }
+
+  static DestroyToolTip() {
+    if(!ToolTip.toolTip) { return; }
+
+    ToolTip.toolTip.parentNode.removeChild(ToolTip.toolTip);
+    ToolTip.toolTip = undefined;
   }
 
   ToggleTooltip(show) {
@@ -95,6 +104,7 @@ class ToolTip extends React.Component {
         React.Children.only(this.props.children),
         {
           onMouseEnter: (e) => {
+            ToolTip.CreateToolTip();
             if(this.props.onMouseEnter) {
               this.props.onMouseEnter(e);
             }
@@ -102,6 +112,7 @@ class ToolTip extends React.Component {
             this.MoveToolTip(e.clientX, e.clientY);
           },
           onMouseLeave: (e) => {
+            ToolTip.DestroyToolTip();
             if(this.props.onMouseLeave) {
               this.props.onMouseLeave(e);
             }

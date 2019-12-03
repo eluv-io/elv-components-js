@@ -61,7 +61,6 @@ const TraversableJson = ({
       expandable = true;
       content = (
         <div className="-elv-indented">
-          [
           <div className="-elv-indented">
             {
               json.map((value, i) => (
@@ -79,7 +78,6 @@ const TraversableJson = ({
               ))
             }
           </div>
-          ]
         </div>
       );
     }
@@ -89,7 +87,7 @@ const TraversableJson = ({
 
       content = Object.keys(json).map(key => {
         return (
-          <div className="-elv-indented">
+          <div className="-elv-indented" key={`json-key-${path}-${key}`}>
             <TraversableJson
               key={`json-key-${path}-${key}`}
               expand={expandChildren}
@@ -118,7 +116,7 @@ const TraversableJson = ({
   // Top level component
   if(!path) {
     return (
-      <div className="-elv-traversable-json">
+      <div className="-elv-traversable-json" key="-elv-traversable-json">
         { content }
       </div>
     );
@@ -191,7 +189,10 @@ const TraversableJson = ({
   }
 
   return (
-    <div className={`-elv-json-entry ${expandable ? "" : "-elv-json-entry-literal"}`}>
+    <div
+      key={`traversable-json-${path}`}
+      className={`-elv-json-entry ${expandable ? "" : "-elv-json-entry-literal"}`}
+    >
       <label
         onClick={() => {
           if(show) { setExpandChildren(false); }
@@ -218,7 +219,10 @@ const TraversableJson = ({
 TraversableJson.propTypes = {
   json: PropTypes.oneOfType([
     PropTypes.object,
-    PropTypes.array
+    PropTypes.array,
+    PropTypes.string,
+    PropTypes.bool,
+    PropTypes.number
   ]),
   editable: PropTypes.bool,
   onChange: PropTypes.func,
