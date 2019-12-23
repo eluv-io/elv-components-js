@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import PrettyBytes from "pretty-bytes";
 import UrlJoin from "url-join";
 import Path from "path";
-import {Action, IconButton, ImageIcon} from "../..";
+import {Action, IconButton, ImageIcon, onEnterPressed} from "../..";
 import PreviewIcon from "./PreviewIcon";
 
 import DirectoryIcon from "../icons/directory.svg";
@@ -101,6 +101,7 @@ class FileBrowser extends React.Component {
         className={`selectable-file ${this.state.selected[name] ? "selected-file" : ""}`}
         tabIndex={0}
         onClick={() => this.Select(name, info.size)}
+        onKeyPress={onEnterPressed(() => this.Select(name, info.size))}
       >
         <td className="item-icon">
           { this.FileIcon(name) }
@@ -182,9 +183,7 @@ class FileBrowser extends React.Component {
             >
               Cancel
             </Action>
-            <Action
-              onClick={() => this.props.Submit(Object.values(this.state.selected))}
-            >
+            <Action onClick={() => this.props.Submit(Object.values(this.state.selected))}>
               Submit
             </Action>
           </div>
