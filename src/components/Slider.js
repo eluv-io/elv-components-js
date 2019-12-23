@@ -220,7 +220,7 @@ export class Range extends React.Component {
   Marks() {
     if(!this.props.showMarks) { return null; }
 
-    const nMarks = 10;
+    const nMarks = this.props.marks || 10;
     const scaleInterval = (this.props.max - this.props.min) / nMarks;
     const scaleOffset = scaleInterval / 2;
     const widthInterval = this.state.width / nMarks;
@@ -318,6 +318,7 @@ const commonPropTypes = {
   min: PropTypes.number.isRequired,
   max: PropTypes.number.isRequired,
   showMarks: PropTypes.bool,
+  marks: PropTypes.number,
   onChange: PropTypes.func,
   renderToolTip: PropTypes.func
 };
