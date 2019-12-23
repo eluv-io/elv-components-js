@@ -71,28 +71,30 @@ class ToolTip extends React.Component {
   }
 
   MoveToolTip(x, y) {
+    if(!ToolTip.toolTip || !this.props.content) { return; }
+
     if(!this.props.content) {
       ToolTip.toolTip.style.visibility = "hidden";
     }
 
-    if(!ToolTip.toolTip || !this.props.content) { return; }
-
     const viewportWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
     const viewportHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-    const maxLeft = viewportWidth - ToolTip.toolTip.offsetWidth - 20;
+    const offset = 20;
 
-    ToolTip.toolTip.style.left =
-      Math.max(0,
-        Math.min(
-          maxLeft,
-          x + 30 - ToolTip.toolTip.offsetWidth / 2
-        )
-      ) + "px";
+    if(x > viewportWidth / 2) {
+      ToolTip.toolTip.style.right = viewportWidth - x + "px";
+      ToolTip.toolTip.style.left = "";
+    } else {
+      ToolTip.toolTip.style.left = x + offset + "px";
+      ToolTip.toolTip.style.right = "";
+    }
 
     if(y > viewportHeight / 2) {
-      ToolTip.toolTip.style.top = window.pageYOffset + (y - 10 - ToolTip.toolTip.offsetHeight) + "px";
+      ToolTip.toolTip.style.bottom = viewportHeight - y + "px";
+      ToolTip.toolTip.style.top = "";
     } else {
-      ToolTip.toolTip.style.top = y + 30 + "px";
+      ToolTip.toolTip.style.top = y + offset + "px";
+      ToolTip.toolTip.style.bottom = "";
     }
 
     ToolTip.toolTip.style.visibility = "visible";
@@ -122,7 +124,7 @@ class ToolTip extends React.Component {
             if(this.props.onMouseMove) {
               this.props.onMouseMove(e);
             }
-            this.MoveToolTip(e.clientX, e.clientY);
+            this.MoveToolTip(e.pageX, e.pageY);
           }
         }
       )
