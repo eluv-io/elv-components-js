@@ -4,7 +4,19 @@ import React from "react";
 import PropTypes from "prop-types";
 import Link from "react-router-dom/es/Link";
 
-const Action = ({label, type, to, onClick, className, disabled=false, hidden=false, children, button=true}) => {
+const Action = ({
+  label,
+  title,
+  type,
+  to,
+  onClick,
+  className,
+  disabled=false,
+  hidden=false,
+  children,
+  button=true,
+  additionalProps={}
+}) => {
   if(hidden) { return null; }
 
   className = className || "";
@@ -19,8 +31,10 @@ const Action = ({label, type, to, onClick, className, disabled=false, hidden=fal
       <Link
         to={to}
         aria-label={label}
+        title={title}
         tabIndex={0}
         className={className}
+        {...additionalProps}
       >
         { content }
       </Link>
@@ -30,11 +44,13 @@ const Action = ({label, type, to, onClick, className, disabled=false, hidden=fal
     return (
       <button
         aria-label={label}
+        title={title}
         tabIndex={0}
         type={type}
         className={className}
         onClick={onClick}
         disabled={disabled}
+        {...additionalProps}
       >
         { content }
       </button>
@@ -54,7 +70,8 @@ Action.propTypes = {
   onClick: PropTypes.func,
   className: PropTypes.string,
   disabled: PropTypes.bool,
-  hidden: PropTypes.bool
+  hidden: PropTypes.bool,
+  additionalProps: PropTypes.object
 };
 
 export default Action;
