@@ -1,7 +1,7 @@
 import "../stylesheets/forms.scss";
 
 import React from "react";
-import Redirect from "react-router-dom/es/Redirect";
+import {Redirect} from "react-router-dom";
 import PropTypes from "prop-types";
 import Action from "./Action";
 import LoadingElement from "./LoadingElement";

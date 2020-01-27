@@ -2,7 +2,7 @@ import "../stylesheets/icons.scss";
 
 import SVG from "react-inlinesvg";
 import React from "react";
-import Link from "react-router-dom/es/Link";
+import {Link} from "react-router-dom";
 import {onEnterPressed} from "../utils/Events";
 
 export const CroppedIcon = ({
