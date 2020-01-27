@@ -1,41 +1,51 @@
-@import "variables/colors";
-@import "variables/spacing";
+@import "styles";
 
-.-elv-icon {
-  color: $elv-color-darkergray;
+@mixin elv-icon($color) {
+  color: $color;
   display: block;
-  fill: $elv-color-darkergray;
   height: 30px;
+  stroke: $color;
   width: 30px;
+
+  &.-elv-icon-with-loader {
+    background: transparent url("../icons/loading.gif") center no-repeat;
+    opacity: 0.3;
+  }
 }
 
-.-elv-icon-button {
+@mixin elv-icon-button($color, $hover-color, $active-color) {
   background-color: transparent;
   border: 0;
   cursor: pointer;
+  height: 30px;
   padding: 0;
 
-  .-elv-icon {
-    height: auto;
+  svg {
+    @include elv-icon($color);
+    height: 100%;
     margin: 0;
     padding: 0;
     width: auto;
   }
 
   &:hover:enabled {
-    .icon {
-      opacity: 0.8
-    }
+    color: $hover-color;
   }
 
   &:active:enabled {
-    .icon {
-      opacity: 0.9
-    }
+    color: $active-color;
   }
 
   &:disabled {
     cursor: auto;
     opacity: 0.5;
   }
+}
+
+.-elv-icon {
+  @include elv-icon($elv-color-darkgray);
+}
+
+.-elv-icon-button {
+  @include elv-icon-button($elv-color-darkgray, $elv-color-black, $elv-color-darkergray);
 }

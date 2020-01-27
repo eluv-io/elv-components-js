@@ -1,4 +1,4 @@
-import Path from "path";
+import UrlJoin from "url-join";
 
 // Convert a FileList to file info for UploadFiles
 export const FileInfo = async (path, fileList, noData=false) => {
@@ -7,7 +7,7 @@ export const FileInfo = async (path, fileList, noData=false) => {
       const data = noData ? undefined : await new Response(file).blob();
       const filePath = file.overrideName || file.webkitRelativePath || file.name;
       return {
-        path: Path.join(path, filePath).replace(/^\/+/g, ""),
+        path: UrlJoin(path, filePath).replace(/^\/+/g, ""),
         type: "file",
         size: file.size,
         data

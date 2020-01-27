@@ -4,50 +4,74 @@ import React from "react";
 import PropTypes from "prop-types";
 import Link from "react-router-dom/es/Link";
 
-const Action = ({title, type, to, onClick, className, disabled=false, children}) => {
+const Action = ({
+  label,
+  title,
+  type,
+  to,
+  onClick,
+  className,
+  disabled=false,
+  hidden=false,
+  children,
+  button=true,
+  additionalProps={}
+}) => {
+  if(hidden) { return null; }
+
   className = className || "";
+  if(button) { className = className + " -elv-button"; }
 
-  const text = children;
+  const content = children;
 
-  if(!title) { title = text; }
   if(!type) { type = "button"; }
 
   if(type === "link") {
     return (
       <Link
         to={to}
+        aria-label={label}
         title={title}
         tabIndex={0}
-        className={"-elv-button " + className}
+        className={className}
+        {...additionalProps}
       >
-        { text }
+        { content }
       </Link>
     );
   } else {
     // Button
     return (
       <button
+        aria-label={label}
         title={title}
         tabIndex={0}
         type={type}
-        className={`-elv-button ${className}`}
+        className={className}
         onClick={onClick}
         disabled={disabled}
+        {...additionalProps}
       >
-        { text }
+        { content }
       </button>
     );
   }
 };
 
 Action.propTypes = {
-  children: PropTypes.string.isRequired,
-  title: PropTypes.string,
+  children: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object,
+    PropTypes.array
+  ]).isRequired,
+  label: PropTypes.string,
   type: PropTypes.string,
   to: PropTypes.string,
   onClick: PropTypes.func,
   className: PropTypes.string,
-  disabled: PropTypes.bool
+  disabled: PropTypes.bool,
+  hidden: PropTypes.bool,
+  additionalProps: PropTypes.object
 };
 
 export default Action;

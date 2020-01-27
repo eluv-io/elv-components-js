@@ -1,7 +1,7 @@
 import "../stylesheets/loading.scss";
 
 import React from "react";
-import {BallClipRotate, BallPulse} from "./AnimatedIcons";
+import {BallSpin} from "./AnimatedIcons";
 import PropTypes from "prop-types";
 
 class LoadingElement extends React.Component {
@@ -16,9 +16,9 @@ class LoadingElement extends React.Component {
     if(loading) {
       if(this.props.noIndicator) { return null; }
 
-      const loadingIcon = this.props.loadingIcon === "rotate" ? <BallClipRotate/> : <BallPulse/>;
+      const loadingIcon = <BallSpin/>;
       let className = "-elv-loading-element "  + (this.props.loadingClassname || "");
-      if(this.props.fullPage) { className += "loading-page-container"; }
+      if(this.props.fullPage) { className += " -elv-loading-element-fullpage"; }
 
       return (
         <div className={className}>
@@ -44,8 +44,7 @@ LoadingElement.propTypes = {
     PropTypes.arrayOf(PropTypes.element)
   ]),
   noIndicator: PropTypes.bool,
-  loadingClassname: PropTypes.string,
-  loadingIcon: PropTypes.string
+  loadingClassname: PropTypes.string
 };
 
 export default LoadingElement;

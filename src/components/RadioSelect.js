@@ -7,64 +7,83 @@ class RadioSelect extends React.Component {
   constructor(props) {
     super(props);
 
+    let selectedIndex = 0;
+    if(props.selected) {
+      selectedIndex = props.options.findIndex(option => option[1] === props.selected);
+    }
+
     this.state = {
-      firstOptionRef: React.createRef()
+      selectedIndex,
+      refs: props.options.map(() => React.createRef())
     };
 
     this.HandleClick = this.HandleClick.bind(this);
+    this.HandleArrows = this.HandleArrows.bind(this);
   }
 
-  componentDidMount() {
-    // If attribute is required but not initialized, set value to first option by 'clicking' it
-    if(["", undefined, null].includes(this.props.selected) && this.props.required && this.state.firstOptionRef.current) {
-      this.state.firstOptionRef.current.click();
-    }
-  }
+  HandleClick(index) {
+    const value = this.props.options[index][1];
 
-  // Set name and value for label click event
-  HandleClick(event, value) {
+    this.setState({
+      selectedIndex: index
+    });
+
+    this.state.refs[index].current.focus();
+
     this.props.onChange({target: {name: this.props.name, value}});
+  }
+
+  HandleArrows(event) {
+    if(event.type !== "keydown") { return; }
+    const key = event.key.toLowerCase();
+
+    let nextIndex;
+    switch(key) {
+      case "arrowdown":
+      case "arrowright":
+        nextIndex = (this.state.selectedIndex + 1) % this.props.options.length;
+        break;
+      case "arrowup":
+      case "arrowleft":
+        nextIndex = this.state.selectedIndex === 0 ? this.props.options.length - 1 : this.state.selectedIndex - 1;
+        break;
+      default:
+        return;
+    }
+
+    this.HandleClick(nextIndex);
+
+    event.preventDefault();
+    event.stopPropagation();
   }
 
   RadioOption(option, index) {
     const optionLabel = option[0];
     const optionValue = option[1];
 
-    const label =
-      <label className="-elv-radio-option-label" htmlFor={this.props.name} onClick={(event) => this.HandleClick(event, optionValue)}>
-        { optionLabel }
-      </label>;
-
-    const input =
-      <input
-        ref={index === 0 ? this.state.firstOptionRef : undefined}
-        type="radio"
-        name={this.props.name}
-        value={optionValue}
-        onChange={(event) => this.HandleClick(event, optionValue)}
-        checked={optionValue === this.props.selected}
-      />;
-
-    if(this.props.inline) {
-      return (
-        <div className="-elv-radio-option -elv-radio-inline" key={"radio-select-" + this.props.name + "-" + optionValue }>
-          {input}
-          {label}
-        </div>
-      );
-    } else {
-      return (
-        <div className="-elv-radio-option" key={"radio-select-" + this.props.name + "-" + optionValue }>
-          { label }
-          { input }
-        </div>
-      );
-    }
+    const checked = optionValue === this.props.selected;
+    return (
+      <div
+        role="radio"
+        aria-checked={checked}
+        tabIndex={checked ? 0 : -1}
+        onClick={() => this.HandleClick(index)}
+        ref={this.state.refs[index]}
+        className={`-elv-radio-option ${this.props.inline ? "-elv-radio-inline" : ""} ${checked ? "-elv-radio-selected" : ""}`}
+        key={"radio-select-" + this.props.name + "-" + optionValue }
+      >
+        {optionLabel}
+      </div>
+    );
   }
 
   render() {
     return (
-      <div className={`-elv-radio-options ${this.props.inline ? "-elv-radio-inline": ""}`}>
+      <div
+        role="radiogroup"
+        onKeyDown={this.HandleArrows}
+        className={`-elv-radio ${this.props.inline ? "-elv-radio-inline": ""}`}
+      >
         { this.props.options.map((option, index) => this.RadioOption(option, index)) }
       </div>
     );

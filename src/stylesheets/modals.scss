@@ -1,5 +1,4 @@
-@import "variables/colors";
-@import "variables/spacing";
+@import "styles";
 
 @mixin elv-modal {
   align-items: flex-start;
@@ -16,8 +15,8 @@
 
   .-elv-modal-content {
     background: $elv-color-bg-white;
-    border: 1px solid $elv-color-darkergray;
-    border-radius: 2px;
+    border: 1px solid $elv-color-darkgray;
+    box-shadow: $elv-color-darkgray 5px 5px 10px;
     margin-top: $elv-spacing-xxl;
 
     max-height: 75%;
@@ -37,6 +36,26 @@
 
     &:empty {
       display: none;
+    }
+  }
+
+  form {
+    width: 500px;
+
+    fieldset {
+      border: 0;
+      padding: 0 $elv-spacing-s;
+    }
+
+    legend {
+      border-bottom: 1px solid $elv-color-lightgray;
+      font-weight: 500;
+      padding: $elv-spacing-xs 0;
+      width: 100%;
+    }
+
+    .form-actions {
+      margin-bottom: $elv-spacing-xs;
     }
   }
 }

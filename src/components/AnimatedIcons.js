@@ -15,7 +15,22 @@ export const BallPulse = () => {
 export const BallClipRotate = () => {
   return (
     <div className="animated-icon la-ball-clip-rotate la-dark">
-      <div></div>
+      <div/>
+    </div>
+  );
+};
+
+export const BallSpin = () => {
+  return (
+    <div className="la-ball-spin-clockwise la-dark">
+      <div/>
+      <div/>
+      <div/>
+      <div/>
+      <div/>
+      <div/>
+      <div/>
+      <div/>
     </div>
   );
 };

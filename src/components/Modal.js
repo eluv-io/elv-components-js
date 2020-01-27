@@ -26,7 +26,7 @@ class Modal extends React.Component {
 
   componentWillUnmount() {
     document.removeEventListener("mousedown", this.HandleClickOutside);
-    document.addEventListener("keyup", this.HandleEscapeKey);
+    document.removeEventListener("keyup", this.HandleEscapeKey);
   }
 
   HandleClickOutside(event) {
@@ -38,17 +38,18 @@ class Modal extends React.Component {
   }
 
   HandleEscapeKey(event) {
+    // todo: use key
     if(event.keyCode === 27) {
-      this.props.OnClickOutside();
+      this.HandleClickOutside(event);
     }
   }
 
   render() {
     return (
-      <div className="-elv-modal">
+      <div className={`-elv-modal ${this.props.className || ""}`}>
         <div className="-elv-modal-content" ref={this.state.outsideContainerRef}>
           <div className="-elv-modal-error">{this.props.errorMessage}</div>
-          { this.props.modalContent }
+          { this.props.children || this.props.modalContent }
         </div>
       </div>
     );
@@ -56,10 +57,12 @@ class Modal extends React.Component {
 }
 
 Modal.propTypes = {
-  modalContent: PropTypes.node.isRequired,
-  OnClickOutside: PropTypes.func.isRequired,
+  children: PropTypes.node,
+  modalContent: PropTypes.node,
+  OnClickOutside: PropTypes.func,
   closable: PropTypes.bool, // Allow caller to prevent closing of modal
-  errorMessage: PropTypes.string
+  errorMessage: PropTypes.string,
+  className: PropTypes.string
 };
 
 export default Modal;

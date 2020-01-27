@@ -9,6 +9,8 @@ import {FileInfo} from "../utils/Files";
 import Path from "path";
 import {ImageIcon} from "./Icons";
 import Action from "./Action";
+import {Modal} from "../index";
+import FileBrowser from "./FileBrowser";
 
 // A styled browse widget for forms
 class BrowseWidget extends React.Component {
@@ -16,12 +18,46 @@ class BrowseWidget extends React.Component {
     super(props);
 
     this.state = {
-      fileInfo: "",
+      fileInfo: [],
       browseButtonRef: React.createRef(),
-      previewUrl: ""
+      previewUrl: "",
+      browseModal: null
     };
 
+    this.Preview = this.Preview.bind(this);
     this.HandleChange = this.HandleChange.bind(this);
+    this.ActivateModal = this.ActivateModal.bind(this);
+    this.SelectRemoteFiles = this.SelectRemoteFiles.bind(this);
+    this.CloseModal = this.CloseModal.bind(this);
+  }
+
+  SelectRemoteFiles(fileInfo) {
+    this.setState({fileInfo});
+    this.props.onChange(fileInfo.map(info => info.path));
+    this.CloseModal();
+  }
+
+  ActivateModal() {
+    this.setState({
+      browseModal: (
+        <Modal className="-elv-browse-modal">
+          <FileBrowser
+            header={this.props.header}
+            Submit={this.SelectRemoteFiles}
+            Cancel={this.CloseModal}
+            baseFileUrl={this.props.baseFileUrl}
+            files={this.props.fileMetadata}
+            mimeTypes={this.props.mimeTypes}
+            extensions={this.props.extensions}
+            multiple={this.props.multiple}
+          />
+        </Modal>
+      )
+    });
+  }
+
+  CloseModal() {
+    this.setState({browseModal: null});
   }
 
   async HandlePreviewChange(file) {
@@ -88,16 +124,16 @@ class BrowseWidget extends React.Component {
 
   ItemRow(item) {
     const info = this.props.progress &&  this.props.progress[item.path] ?
-      `${this.props.progress[item.path]}%` : PrettyBytes(item.size || 0);
+      this.props.progress[item.path] : PrettyBytes(item.size || 0);
     return (
-      <tr className="-elv-item-icon" key={item.path}>
-        <td>
-          <ImageIcon icon={item.type === "directory" ? DirectoryIcon : FileIcon} className="-elv-item-icon"/>
+      <tr key={item.path}>
+        <td className="-elv-item-icon">
+          <ImageIcon icon={item.type === "directory" ? DirectoryIcon : FileIcon}/>
         </td>
         <td className="-elv-item-path">
           { item.path }
         </td>
-        <td>
+        <td className="-elv-item-status">
           { info }
         </td>
       </tr>
@@ -124,7 +160,7 @@ class BrowseWidget extends React.Component {
   }
 
   FileSelections() {
-    if(!this.state.fileInfo) { return null; }
+    if(!this.state.fileInfo || this.state.fileInfo.length === 0) { return null; }
 
     return (
       <div className="-elv-browse-widget-files">
@@ -154,7 +190,18 @@ class BrowseWidget extends React.Component {
     );
   }
 
-  render() {
+  RemoteBrowse() {
+    return (
+      <div className="-elv-browse-widget">
+        <Action onClick={this.ActivateModal}>Browse</Action>
+        { this.Preview() }
+        { this.FileSelections() }
+        { this.state.browseModal }
+      </div>
+    );
+  }
+
+  LocalBrowse() {
     const inputName = "browse-" + this.props.name;
     const accept = Array.isArray(this.props.accept) ? this.props.accept.join(", ") : this.props.accept;
     let directoryAttributes = {};
@@ -187,10 +234,16 @@ class BrowseWidget extends React.Component {
       </div>
     );
   }
+
+  render() {
+    return this.props.remote ?
+      this.RemoteBrowse() :
+      this.LocalBrowse();
+  }
 }
 
 BrowseWidget.propTypes = {
-  name: PropTypes.string.isRequired,
+  name: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   required: PropTypes.bool,
   multiple: PropTypes.bool,
@@ -200,7 +253,17 @@ BrowseWidget.propTypes = {
   ]),
   preview: PropTypes.bool,
   directories: PropTypes.bool,
-  progress: PropTypes.object
+  progress: PropTypes.object,
+
+
+  header: PropTypes.string,
+  remote: PropTypes.bool,
+  fileMetadata: PropTypes.object,
+  mimeTypes: PropTypes.object,
+  baseFileUrl: PropTypes.string,
+  extensions: PropTypes.arrayOf(
+    PropTypes.string
+  )
 };
 
 export default BrowseWidget;
