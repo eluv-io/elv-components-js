@@ -173,7 +173,7 @@ class FileBrowser extends React.Component {
     }
 
     return (
-      <div className="file-browser">
+      <div className="-elv-file-browser">
         <div className="file-browser-header">
           <h3>{this.props.header}</h3>
           <div className="file-browser-actions">

@@ -5,28 +5,37 @@ import React from "react";
 import Image from "../icons/image.svg";
 import PropTypes from "prop-types";
 
-const PreviewIcon = ({baseFileUrl, imagePath}) => {
-  if (!imagePath) {
+const PreviewIcon = ({fullUrl, baseFileUrl, imagePath, icon, onHover, additionalContent}) => {
+  if(!imagePath) {
     return <div className="preview-icon"/>;
   }
 
-  const uri = URI(baseFileUrl);
-  uri.path(UrlJoin(uri.path(), imagePath).replace("//", "/"));
+  let uri = fullUrl || baseFileUrl || "";
+
+  if(!fullUrl && baseFileUrl) {
+    uri = URI(uri);
+    uri.path(UrlJoin(uri.path(), imagePath).replace("//", "/"));
+    uri = uri.toString();
+  }
 
   return (
     <ToolTip
       key={`preview-icon-${imagePath}`}
-      className={"file-image-preview-tooltip"}
+      className={"-elv-file-image-preview-tooltip"}
+      onMouseEnter={onHover}
       content={
-        <CroppedIcon
-          icon={uri.toString()}
-          title={imagePath}
-          className="file-image-preview"
-        />
+        <React.Fragment>
+          <CroppedIcon
+            icon={uri}
+            title={imagePath}
+            className="file-image-preview"
+          />
+          { additionalContent }
+        </React.Fragment>
       }
     >
       <ImageIcon
-        icon={Image}
+        icon={icon || Image}
         label={"Preview " + imagePath.split("/").pop()}
         className="preview-icon"
       />
@@ -35,8 +44,12 @@ const PreviewIcon = ({baseFileUrl, imagePath}) => {
 };
 
 PreviewIcon.propTypes = {
-  baseFileUrl: PropTypes.string.isRequired,
-  imagePath: PropTypes.string.isRequired
+  fullUrl: PropTypes.string,
+  baseFileUrl: PropTypes.string,
+  imagePath: PropTypes.string.isRequired,
+  onHover: PropTypes.func,
+  additionalContent: PropTypes.element,
+  icon: PropTypes.string
 };
 
 export default PreviewIcon;

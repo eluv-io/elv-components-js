@@ -12,12 +12,10 @@ class Form extends React.Component {
 
     this.state = {
       cancel: false,
-      status: {
-        loading: false,
-        completed: false,
-        error: false,
-        errorMessage: ""
-      }
+      loading: false,
+      completed: false,
+      error: false,
+      errorMessage: ""
     };
 
     this.HandleSubmit = this.HandleSubmit.bind(this);
@@ -35,55 +33,42 @@ class Form extends React.Component {
   async HandleSubmit(event) {
     event.preventDefault();
 
-    if(!this.state.status.loading) {
+    if(this.state.loading) { return; }
+
+    this.setState({
+      loading: true,
+      completed: false,
+      error: false,
+      errorMessage: ""
+    });
+
+    try {
+      await this.props.OnSubmit(event);
+
+      if(this.mounted) {
+        this.setState({loading: false});
+      }
+
+      if(this.props.OnComplete) {
+        await this.props.OnComplete();
+      }
+
+      if(this.mounted) {
+        this.setState({completed: true});
+      }
+    } catch(error) {
+      const errorMessage = typeof error === "object" ?
+        error.errorMessage || error.message : error;
+
       this.setState({
-        status: {
-          loading: true,
-          completed: false,
-          error: false,
-          errorMessage: ""
-        }
+        loading: false,
+        completed: false,
+        error: true,
+        errorMessage: errorMessage
       });
 
-      try {
-        await this.props.OnSubmit(event);
-
-        this.setState({
-          status: {
-            loading: false,
-            completed: false,
-            error: false,
-            errorMessage: ""
-          }
-        });
-
-        if(this.props.OnComplete) {
-          await this.props.OnComplete();
-        }
-
-        if(this.mounted) {
-          this.setState({
-            status: {
-              completed: true
-            }
-          });
-        }
-      } catch(error) {
-        const errorMessage = typeof error === "object" ?
-          error.errorMessage || error.message : error;
-
-        this.setState({
-          status: {
-            loading: false,
-            completed: false,
-            error: true,
-            errorMessage: errorMessage
-          }
-        });
-
-        if(this.props.OnError) {
-          await this.props.OnError(error);
-        }
+      if(this.props.OnError) {
+        await this.props.OnError(error);
       }
     }
   }
@@ -101,11 +86,11 @@ class Form extends React.Component {
   }
 
   ErrorMessage() {
-    if(!this.state.status.error || !this.state.status.errorMessage) { return null; }
+    if(!this.state.error || !this.state.errorMessage) { return null; }
 
     return (
       <div className="form-error">
-        <span>{this.state.status.errorMessage}</span>
+        <span>{this.state.errorMessage}</span>
       </div>
     );
   }
@@ -122,7 +107,7 @@ class Form extends React.Component {
 
     return (
       <div className="form-actions">
-        <LoadingElement loading={this.state.status.loading}>
+        <LoadingElement loading={this.state.loading}>
           { cancelButton }
           <Action type="submit">{this.props.submitText || "Submit"}</Action>
         </LoadingElement>
@@ -131,7 +116,7 @@ class Form extends React.Component {
   }
 
   render() {
-    if(this.state.status.completed && this.props.redirectPath) {
+    if(this.state.completed && this.props.redirectPath) {
       return (
         <Redirect push to={ this.props.redirectPath } />
       );
