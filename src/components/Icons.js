@@ -59,7 +59,7 @@ export const CroppedIconWithAction = ({
   );
 };
 
-export const ImageIcon = ({icon, alternateIcon, label, useLoadingIndicator=true, className, ...props}) => {
+export const ImageIcon = ({icon, alternateIcon, label, useLoadingIndicator=false, className, ...props}) => {
   const [error, setError] = React.useState(false);
   const [loading, setLoading] = React.useState(true);
 
