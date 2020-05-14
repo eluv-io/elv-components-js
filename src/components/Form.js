@@ -60,6 +60,9 @@ class Form extends React.Component {
       const errorMessage = typeof error === "object" ?
         error.errorMessage || error.message : error;
 
+      // eslint-disable-next-line no-console
+      console.error(error);
+
       this.setState({
         loading: false,
         completed: false,

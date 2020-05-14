@@ -160,7 +160,7 @@ class BrowseWidget extends React.Component {
   }
 
   FileSelections() {
-    if(!this.state.fileInfo || this.state.fileInfo.length === 0) { return null; }
+    if(this.props.hideFileList || !this.state.fileInfo || this.state.fileInfo.length === 0) { return null; }
 
     return (
       <div className="-elv-browse-widget-files">
@@ -252,6 +252,7 @@ BrowseWidget.propTypes = {
     PropTypes.arrayOf(PropTypes.string)
   ]),
   preview: PropTypes.bool,
+  hideFileList: PropTypes.bool,
   directories: PropTypes.bool,
   progress: PropTypes.object,
 
