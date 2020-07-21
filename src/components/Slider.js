@@ -194,11 +194,6 @@ export class Range extends React.Component {
     const min = positions.length === 1 ? this.props.min : positions.reduce((min, p) => p < min ? p : min);
     const max = positions.reduce((max, p) => p > max ? p : max);
 
-    if(this.props.log) {
-      console.log(min, max);
-      console.log(this.state.width, this.PositionToPixels(min), this.PositionToPixels(max));
-    }
-
     return (
       <div
         style={{
