@@ -38,10 +38,10 @@ export class Range extends React.Component {
   WatchResize(element) {
     if(element && !this.resizeObserver) {
       this.resizeObserver = new ResizeObserver((entries) => {
-        const container = entries[0];
+        const container = entries[0].target.parentNode;
 
         this.setState({
-          width: container.contentRect.width
+          width: container.offsetWidth
         });
       });
 
@@ -193,6 +193,11 @@ export class Range extends React.Component {
     const positions = this.props.handles.map(handle => handle.position);
     const min = positions.length === 1 ? this.props.min : positions.reduce((min, p) => p < min ? p : min);
     const max = positions.reduce((max, p) => p > max ? p : max);
+
+    if(this.props.log) {
+      console.log(min, max);
+      console.log(this.state.width, this.PositionToPixels(min), this.PositionToPixels(max));
+    }
 
     return (
       <div
