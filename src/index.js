@@ -1,6 +1,7 @@
 export * from "./components/AnimatedIcons";
 export * from "./components/Copy";
 export * from "./components/Icons";
+export * from "./components/Inputs";
 export * from "./components/Slider";
 export * from "./utils/Events";
 export * from "./utils/Input";

@@ -21,10 +21,13 @@
   },
   "homepage": "https://github.com/eluv-io/elv-components-js#readme",
   "dependencies": {
+    "luxon": "^1.24.1",
+    "moment-timezone": "^0.5.31",
     "path": "^0.12.7",
     "pretty-bytes": "^5.1.0",
     "prop-types": "^15.7.2",
     "react": "^16.8.3",
+    "react-datetime": "^2.16.3",
     "react-dom": "^16.8.6",
     "react-inlinesvg": "^1.1.5",
     "react-router-dom": "^5.1.2",

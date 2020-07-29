@@ -9,3 +9,71 @@ textarea {
     }
   }
 }
+
+.-elv-input {
+  align-items: center;
+  display: grid;
+  grid-gap: 1rem;
+  grid-template-columns: 10rem 1fr;
+  margin-bottom: $elv-spacing-xs;
+
+  .checkbox-container {
+    align-items: center;
+    display: flex;
+    height: $elv-spacing-ml;
+
+    input {
+      cursor: pointer;
+      height: $elv-font-xl;
+      margin: 0;
+      width: $elv-font-xl;
+    }
+  }
+}
+
+.-elv-input-warning {
+  color: $elv-color-mediumred;
+  font-size: $elv-font-m;
+  margin: $elv-spacing-s 0 $elv-spacing-xs;
+}
+
+.-elv-labelled-field,
+.-elv-textarea {
+  label {
+    align-self: baseline;
+  }
+}
+
+.-elv-file-browser-input {
+  grid-template-columns: 15rem 1fr;
+}
+
+.-elv-multi-select {
+  label {
+    align-items: center;
+    align-self: baseline;
+    display: flex;
+  }
+
+  button {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    margin: 0;
+
+    svg {
+      height: $elv-font-xxl;
+    }
+  }
+
+  select {
+    margin-bottom: $elv-spacing-xs;
+  }
+
+  .-elv-multi-select-selections {
+    display: grid;
+    grid-template-columns: 1fr 2.5rem;
+  }
+}
+
+
