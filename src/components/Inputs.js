@@ -168,7 +168,7 @@ export const MultiSelect = ({label, name, values, onChange, options}) => {
           className="-elv-multi-select-add"
         />
         {(values || []).map((selected, index) =>
-          <div className="-elv--multi-select-selections" key={`-elv-multi-select-${name}-${index}`}>
+          <div className="-elv-multi-select-selections" key={`-elv-multi-select-${name}-${index}`}>
             <select
               name={name}
               value={selected}
