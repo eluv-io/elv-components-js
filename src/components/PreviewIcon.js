@@ -5,7 +5,7 @@ import React from "react";
 import Image from "../icons/image.svg";
 import PropTypes from "prop-types";
 
-const PreviewIcon = ({fullUrl, baseFileUrl, imagePath, icon, onHover, additionalContent}) => {
+const PreviewIcon = ({fullUrl, baseFileUrl, imagePath, icon, onHover, additionalContent, height}) => {
   if(!imagePath) {
     return <div className="preview-icon"/>;
   }
@@ -15,6 +15,11 @@ const PreviewIcon = ({fullUrl, baseFileUrl, imagePath, icon, onHover, additional
   if(!fullUrl && baseFileUrl) {
     uri = URI(uri);
     uri.path(UrlJoin(uri.path(), imagePath).replace("//", "/"));
+
+    if(height) {
+      uri.addQuery({height});
+    }
+
     uri = uri.toString();
   }
 

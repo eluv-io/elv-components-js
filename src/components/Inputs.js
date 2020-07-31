@@ -31,11 +31,11 @@ export const Warning = ({message}) => {
   );
 };
 
-export const Input = ({type, label, name, value, readonly=false, onChange, hidden=false, required=false}) => {
+export const Input = ({type, label, name, value, readonly=false, onChange, hidden=false, required=false, className=""}) => {
   if(hidden) { return null; }
 
   return (
-    <div className="-elv-input">
+    <div className={`-elv-input ${className}`}>
       <label htmlFor={name}>{label || FormatName(name)}</label>
       <input
         required={required}
@@ -58,11 +58,11 @@ export const Input = ({type, label, name, value, readonly=false, onChange, hidde
   );
 };
 
-export const ColorSelection = ({label, name, value, readonly=false, onChange, hidden=false}) => {
+export const ColorSelection = ({label, name, value, readonly=false, onChange, hidden=false, className=""}) => {
   if(hidden) { return null; }
 
   return (
-    <div className="-elv-input">
+    <div className={`-elv-input ${className}`}>
       <label htmlFor={name}>{label || FormatName(name)}</label>
       <input
         name={name}
@@ -75,9 +75,9 @@ export const ColorSelection = ({label, name, value, readonly=false, onChange, hi
   );
 };
 
-export const Checkbox = ({label, name, value, readonly=false, onChange}) => {
+export const Checkbox = ({label, name, value, readonly=false, onChange, className=""}) => {
   return (
-    <div className="-elv-input">
+    <div className={`-elv-input ${className}`}>
       <label htmlFor={name}>{label || FormatName(name)}</label>
       <div className="checkbox-container">
         <input
@@ -94,9 +94,9 @@ export const Checkbox = ({label, name, value, readonly=false, onChange}) => {
   );
 };
 
-export const TextArea = ({label, name, value, onChange}) => {
+export const TextArea = ({label, name, value, onChange, className=""}) => {
   return (
-    <div className="-elv-input -elv-textarea">
+    <div className={`-elv-input -elv-textarea ${className}`}>
       <label htmlFor={name}>{label || FormatName(name)}</label>
       <textarea
         name={name}
@@ -107,9 +107,9 @@ export const TextArea = ({label, name, value, onChange}) => {
   );
 };
 
-export const Selection = ({label, name, value, onChange, options}) => {
+export const Selection = ({label, name, value, onChange, options, className=""}) => {
   return (
-    <div className="-elv-input">
+    <div className={`-elv-input ${className}`}>
       <label htmlFor={name}>{label || FormatName(name)}</label>
       <select
         name={name}
@@ -131,7 +131,7 @@ export const Selection = ({label, name, value, onChange, options}) => {
   );
 };
 
-export const MultiSelect = ({label, name, values, onChange, options}) => {
+export const MultiSelect = ({label, name, values, onChange, options, className=""}) => {
   const Update = (index, event) => {
     let newValues = [...values];
     newValues[index] = event.target.value;
@@ -156,7 +156,7 @@ export const MultiSelect = ({label, name, values, onChange, options}) => {
   };
 
   return (
-    <div className="-elv-input -elv-multi-select">
+    <div className={`-elv-input -elv-multi-select ${className}`}>
       <label htmlFor={name}>
         {label || FormatName(name)}
       </label>
@@ -192,18 +192,20 @@ export const MultiSelect = ({label, name, values, onChange, options}) => {
 };
 
 export const DateSelection = ({
+  noLabel=false,
   label,
   name,
   value,
   dateOnly=false,
   onChange,
   referenceTimezone,
-  useDefaultReferenceTimezone=true
+  useDefaultReferenceTimezone=true,
+  className=""
 }) => {
   let debounceTimeout;
   return (
-    <div className="-elv-input -elv-date-input">
-      <label htmlFor={name}>{label || FormatName(name)}</label>
+    <div className={`-elv-input -elv-date-input ${noLabel ? "-elv-date-input-no-label" : ""} ${className}`}>
+      { noLabel ? null : <label htmlFor={name}>{label || FormatName(name)}</label> }
       <DatePicker
         value={value}
         input
@@ -222,7 +224,7 @@ export const DateSelection = ({
   );
 };
 
-export const ToggleSection = ({sectionName, showInitially=false, children}) => {
+export const ToggleSection = ({sectionName, showInitially=false, children, className=""}) => {
   const [show, setShow] = useState(showInitially);
 
   const toggleButton = (
@@ -232,7 +234,7 @@ export const ToggleSection = ({sectionName, showInitially=false, children}) => {
   );
 
   return (
-    <div className={`toggle-section toggle-section-${show ? "show" : "hide"}`}>
+    <div className={`toggle-section toggle-section-${show ? "show" : "hide"} ${className}`}>
       { toggleButton }
 
       { show ? <div className="toggle-section-content">{ children }</div> : null }
@@ -240,9 +242,9 @@ export const ToggleSection = ({sectionName, showInitially=false, children}) => {
   );
 };
 
-export const FileBrowser = ({name, header, accept, multiple=false, directories=false, onChange}) => {
+export const FileBrowser = ({name, header, accept, multiple=false, directories=false, onChange, className=""}) => {
   return (
-    <div className="-elv-input -elv-file-browser-input">
+    <div className={`-elv-input -elv-file-browser-input ${className}`}>
       <label htmlFor="schedule">Upload schedule from file</label>
       <BrowseWidget
         name={name}
@@ -256,11 +258,11 @@ export const FileBrowser = ({name, header, accept, multiple=false, directories=f
   );
 };
 
-export const LabelledField = ({label, value, hidden=false, formatLabel=false, children}) => {
+export const LabelledField = ({label, value, hidden=false, formatLabel=false, children, className=""}) => {
   if(hidden) { return null; }
 
   return (
-    <div className="-elv-input -elv-labelled-field">
+    <div className={`-elv-input -elv-labelled-field ${className}`}>
       <label>{ formatLabel ? FormatName(label) : label }</label>
       <div title={value}>{ children || value }</div>
     </div>

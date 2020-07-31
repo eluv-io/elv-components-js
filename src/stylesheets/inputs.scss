@@ -48,6 +48,11 @@ textarea {
   grid-template-columns: 15rem 1fr;
 }
 
+.-elv-date-input-no-label {
+  grid-gap: 0;
+  grid-template-columns: 1fr;
+}
+
 .-elv-multi-select {
   label {
     align-items: center;
