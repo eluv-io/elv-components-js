@@ -13,6 +13,7 @@ import * as DatePicker from "react-datetime";
 
 export const FormatName = (name) => {
   return (name || "")
+    .replace("-", " ")
     .split(/[_, \s]/)
     .map(word => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ");
@@ -197,6 +198,7 @@ export const DateSelection = ({
   name,
   value,
   dateOnly=false,
+  readOnly=false,
   onChange,
   referenceTimezone,
   useDefaultReferenceTimezone=true,
@@ -209,6 +211,7 @@ export const DateSelection = ({
       <DatePicker
         value={value}
         input
+        inputProps={{readOnly}}
         strictParsing
         timeFormat={dateOnly ? false : "HH:mm:ss z (Z)"}
         dateFormat={"YYYY-MM-DD"}
