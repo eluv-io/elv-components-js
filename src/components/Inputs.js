@@ -10,6 +10,7 @@ import {Settings} from "luxon";
 import AddIcon from "../icons/plus-square.svg";
 import RemoveIcon from "../icons/trash.svg";
 import * as DatePicker from "react-datetime";
+import JsonTextArea from "./JsonInput";
 
 export const FormatName = (name) => {
   return (name || "")
@@ -95,15 +96,22 @@ export const Checkbox = ({label, name, value, readonly=false, onChange, classNam
   );
 };
 
-export const TextArea = ({label, name, value, onChange, className=""}) => {
+export const TextArea = ({label, name, value, onChange, className="", json=false}) => {
   return (
     <div className={`-elv-input -elv-textarea ${className}`}>
       <label htmlFor={name}>{label || FormatName(name)}</label>
-      <textarea
-        name={name}
-        value={value}
-        onChange={event => onChange(event.target.value)}
-      />
+      { json ?
+        <JsonTextArea
+          name={name}
+          value={value}
+          onChange={event => onChange(event.target.value)}
+        /> :
+        <textarea
+          name={name}
+          value={value}
+          onChange={event => onChange(event.target.value)}
+        />
+      }
     </div>
   );
 };
