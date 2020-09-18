@@ -12,6 +12,8 @@ import RemoveIcon from "../icons/trash.svg";
 import * as DatePicker from "react-datetime";
 import JsonTextArea from "./JsonInput";
 
+import ClearIcon from "../icons/x-circle.svg";
+
 export const FormatName = (name) => {
   return (name || "")
     .replace("-", " ")
@@ -207,6 +209,7 @@ export const DateSelection = ({
   value,
   dateOnly=false,
   readOnly=false,
+  clearable=true,
   onChange,
   referenceTimezone,
   useDefaultReferenceTimezone=true,
@@ -216,21 +219,31 @@ export const DateSelection = ({
   return (
     <div className={`-elv-input -elv-date-input ${noLabel ? "-elv-date-input-no-label" : ""} ${className}`}>
       { noLabel ? null : <label htmlFor={name}>{label || FormatName(name)}</label> }
-      <DatePicker
-        value={value}
-        input
-        inputProps={{readOnly}}
-        strictParsing
-        timeFormat={dateOnly ? false : "HH:mm:ss z (Z)"}
-        dateFormat={"YYYY-MM-DD"}
-        displayTimeZone={referenceTimezone || (useDefaultReferenceTimezone ? Settings.defaultZoneName || "" : "")}
-        onChange={datetime => {
-          if(parseInt(datetime.valueOf()) === datetime.valueOf()) {
-            clearTimeout(debounceTimeout);
-            debounceTimeout = setTimeout(() => onChange(datetime.valueOf()), 500);
-          }
-        }}
-      />
+      <div className="-elv-date-container">
+        <DatePicker
+          value={value}
+          input
+          inputProps={{readOnly}}
+          strictParsing
+          timeFormat={dateOnly ? false : "HH:mm:ss z (Z)"}
+          dateFormat={"YYYY-MM-DD"}
+          displayTimeZone={referenceTimezone || (useDefaultReferenceTimezone ? Settings.defaultZoneName || "" : "")}
+          onChange={datetime => {
+            if(parseInt(datetime.valueOf()) === datetime.valueOf()) {
+              clearTimeout(debounceTimeout);
+              debounceTimeout = setTimeout(() => onChange(datetime.valueOf()), 500);
+            }
+          }}
+        />
+        { clearable ?
+          <IconButton
+            className="-elv-date-clear"
+            label="Clear"
+            icon={ClearIcon}
+            onClick={() => onChange("")}
+          />
+          : null}
+      </div>
     </div>
   );
 };

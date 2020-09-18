@@ -48,7 +48,25 @@ textarea {
   grid-template-columns: 15rem 1fr;
 }
 
+.-elv-date-container {
+  display: flex;
+  width: 100%;
+}
+
+.-elv-date-input {
+  .-elv-date-clear {
+    margin-left: -$elv-spacing-m;
+    margin-right: -100%;
+    z-index: 100;
+
+    svg {
+      height: $elv-spacing-s;
+    }
+  }
+}
+
 .-elv-date-input-no-label {
+  display: flex;
   grid-gap: 0;
   grid-template-columns: 1fr;
 }
