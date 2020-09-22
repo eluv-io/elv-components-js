@@ -26,9 +26,7 @@
     "path": "^0.12.7",
     "pretty-bytes": "^5.1.0",
     "prop-types": "^15.7.2",
-    "react": "^16.8.3",
     "react-datetime": "^2.16.3",
-    "react-dom": "^16.8.6",
     "react-inlinesvg": "^1.1.5",
     "react-router-dom": "^5.1.2",
     "react-truncate": "^2.4.0",
@@ -36,6 +34,10 @@
     "select": "^1.1.2",
     "urijs": "^1.19.2",
     "url-join": "^4.0.0"
+  },
+  "peerDependencies": {
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
   },
   "devDependencies": {
     "eslint": "^5.14.1",
