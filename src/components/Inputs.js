@@ -210,6 +210,7 @@ export const DateSelection = ({
   dateOnly=false,
   readOnly=false,
   clearable=true,
+  includeOffset=false,
   onChange,
   referenceTimezone,
   useDefaultReferenceTimezone=true,
@@ -225,7 +226,7 @@ export const DateSelection = ({
           input
           inputProps={{readOnly}}
           strictParsing
-          timeFormat={dateOnly ? false : "HH:mm:ss z (Z)"}
+          timeFormat={dateOnly ? false : `HH:mm:ss z${includeOffset ? "(Z)" : ""}`}
           dateFormat={"YYYY-MM-DD"}
           displayTimeZone={referenceTimezone || (useDefaultReferenceTimezone ? Settings.defaultZoneName || "" : "")}
           onChange={datetime => {
