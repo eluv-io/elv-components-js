@@ -99,6 +99,14 @@
     padding: $elv-spacing-xs;
   }
 
+  &.confirm-with-inputs {
+    width: 700px;
+
+    .form-content {
+      grid-template-columns: minmax(10rem, 1fr) 5fr;
+    }
+  }
+
   @media only screen and (max-width: 1000px) {
     form {
       width: 100%;

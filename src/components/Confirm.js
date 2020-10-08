@@ -5,16 +5,44 @@ import Form from "./Form";
 import Modal from "./Modal";
 
 class ConfirmModal extends React.PureComponent {
+  constructor(props) {
+    super(props);
+
+    let state = {};
+    (props.additionalInputs || []).map(({name}) => state[name] = "");
+
+    this.state = state;
+  }
+
   render() {
     return (
       <Modal closable={true} OnClickOutside={this.HandleCancel}>
         <Form
+          className={this.props.additionalInputs && this.props.additionalInputs.length > 0 ? "confirm-with-inputs" : ""}
           submitText="OK"
           legend="Confirm"
-          formContent={<p>{this.props.message}</p>}
           OnSubmit={this.props.onConfirm}
           OnCancel={this.props.onCancel}
-        />
+        >
+          <p>{this.props.message}</p>
+          <div className="form-content">
+            {
+              (this.props.additionalInputs || []).map(({label, name, onChange}) =>
+                <React.Fragment key={`confirm-input-${name}`}>
+                  <label htmlFor={name}>{ label }</label>
+                  <input
+                    name={name}
+                    onChange={event => {
+                      this.setState({[name]: event.target.value});
+                      onChange(event.target.value);
+                    }}
+                    value={this.state[name]}
+                  />
+                </React.Fragment>
+              )
+            }
+          </div>
+        </Form>
       </Modal>
     );
   }
@@ -26,10 +54,11 @@ ConfirmModal.propTypes = {
   message: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.node
-  ]).isRequired
+  ]).isRequired,
+  additionalInputs: PropTypes.array
 };
 
-const Confirm = async ({message, onConfirm, onCancel}) => {
+const Confirm = async ({message, onConfirm, onCancel, additionalInputs=[]}) => {
   return await new Promise(resolve => {
     const targetId = "-elv-confirm-target";
 
@@ -66,7 +95,7 @@ const Confirm = async ({message, onConfirm, onCancel}) => {
     document.body.appendChild(target);
 
     render(
-      <ConfirmModal message={message} onConfirm={HandleConfirm} onCancel={HandleCancel}/>,
+      <ConfirmModal message={message} onConfirm={HandleConfirm} onCancel={HandleCancel} additionalInputs={additionalInputs} />,
       target
     );
   });
