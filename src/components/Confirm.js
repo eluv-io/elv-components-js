@@ -14,6 +14,32 @@ class ConfirmModal extends React.PureComponent {
     this.state = state;
   }
 
+  AdditionalInputs() {
+    const inputs = (this.props.additionalInputs || []);
+
+    if(inputs.length === 0) { return null; }
+
+    return (
+      <div className="form-content">
+        {
+          inputs.map(({label, name, onChange}) =>
+            <React.Fragment key={`confirm-input-${name}`}>
+              <label htmlFor={name}>{ label }</label>
+              <input
+                name={name}
+                onChange={event => {
+                  this.setState({[name]: event.target.value});
+                  onChange(event.target.value);
+                }}
+                value={this.state[name]}
+              />
+            </React.Fragment>
+          )
+        }
+      </div>
+    );
+  }
+
   render() {
     return (
       <Modal closable={true} OnClickOutside={this.HandleCancel}>
@@ -25,23 +51,7 @@ class ConfirmModal extends React.PureComponent {
           OnCancel={this.props.onCancel}
         >
           <p>{this.props.message}</p>
-          <div className="form-content">
-            {
-              (this.props.additionalInputs || []).map(({label, name, onChange}) =>
-                <React.Fragment key={`confirm-input-${name}`}>
-                  <label htmlFor={name}>{ label }</label>
-                  <input
-                    name={name}
-                    onChange={event => {
-                      this.setState({[name]: event.target.value});
-                      onChange(event.target.value);
-                    }}
-                    value={this.state[name]}
-                  />
-                </React.Fragment>
-              )
-            }
-          </div>
+          { this.AdditionalInputs() }
         </Form>
       </Modal>
     );

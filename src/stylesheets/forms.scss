@@ -104,6 +104,10 @@
 
     .form-content {
       grid-template-columns: minmax(10rem, 1fr) 5fr;
+
+      label {
+        text-align: center;
+      }
     }
   }
 
