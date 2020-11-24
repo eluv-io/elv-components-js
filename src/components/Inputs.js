@@ -79,12 +79,13 @@ export const ColorSelection = ({label, name, value, readonly=false, onChange, hi
   );
 };
 
-export const Checkbox = ({label, name, value, readonly=false, onChange, className=""}) => {
+export const Checkbox = ({label, name, value, readonly=false, onChange, className="", disabled=false}) => {
   return (
     <div className={`-elv-input ${className}`}>
       <label htmlFor={name}>{label || FormatName(name)}</label>
       <div className="checkbox-container">
         <input
+          disabled={disabled}
           name={name}
           type="checkbox"
           checked={!!value}
