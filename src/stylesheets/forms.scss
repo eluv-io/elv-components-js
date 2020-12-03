@@ -97,6 +97,13 @@
     color: #fff;
     margin-top: $elv-spacing-s;
     padding: $elv-spacing-xs;
+
+    pre {
+      border: 0;
+      font-family: $elv-font-default;
+      font-size: $elv-font-l;
+      padding: $elv-spacing-xxs;
+    }
   }
 
   &.confirm-with-inputs {

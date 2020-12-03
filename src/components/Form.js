@@ -93,7 +93,7 @@ class Form extends React.Component {
 
     return (
       <div className="form-error">
-        <span>{this.state.errorMessage}</span>
+        <pre>{this.state.errorMessage}</pre>
       </div>
     );
   }

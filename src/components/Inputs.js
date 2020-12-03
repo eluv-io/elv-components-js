@@ -81,7 +81,7 @@ export const ColorSelection = ({label, name, value, readonly=false, onChange, hi
 
 export const Checkbox = ({label, name, value, readonly=false, onChange, className="", disabled=false}) => {
   return (
-    <div className={`-elv-input ${className}`}>
+    <div className={`-elv-input -elv-checkbox-input ${className}`}>
       <label htmlFor={name}>{label || FormatName(name)}</label>
       <div className="checkbox-container">
         <input
@@ -121,7 +121,7 @@ export const TextArea = ({label, name, value, onChange, className="", json=false
 
 export const Selection = ({label, name, value, onChange, options, className=""}) => {
   return (
-    <div className={`-elv-input ${className}`}>
+    <div className={`-elv-input -elv-select ${className}`}>
       <label htmlFor={name}>{label || FormatName(name)}</label>
       <select
         name={name}
@@ -144,6 +144,8 @@ export const Selection = ({label, name, value, onChange, options, className=""})
 };
 
 export const MultiSelect = ({label, name, values, onChange, options, className=""}) => {
+  values = values || [];
+
   const Update = (index, event) => {
     let newValues = [...values];
     newValues[index] = event.target.value;
@@ -153,7 +155,8 @@ export const MultiSelect = ({label, name, values, onChange, options, className="
 
   const Add = () => {
     let newValues = [...values];
-    newValues.push(options[0]);
+    const next = options.find(option => !newValues.includes(option)) || options[0];
+    newValues.push(next);
 
     onChange(newValues);
   };
@@ -173,12 +176,6 @@ export const MultiSelect = ({label, name, values, onChange, options, className="
         {label || FormatName(name)}
       </label>
       <div>
-        <IconButton
-          icon={AddIcon}
-          label={`Add ${name}`}
-          onClick={() => Add()}
-          className="-elv-multi-select-add"
-        />
         {(values || []).map((selected, index) =>
           <div className="-elv-multi-select-selections" key={`-elv-multi-select-${name}-${index}`}>
             <select
@@ -198,6 +195,12 @@ export const MultiSelect = ({label, name, values, onChange, options, className="
             />
           </div>
         )}
+        <IconButton
+          icon={AddIcon}
+          label={`Add ${name}`}
+          onClick={() => Add()}
+          className="-elv-multi-select-add"
+        />
       </div>
     </div>
   );
@@ -290,7 +293,7 @@ export const LabelledField = ({label, value, hidden=false, formatLabel=false, ch
   return (
     <div className={`-elv-input -elv-labelled-field ${className}`}>
       <label>{ formatLabel ? FormatName(label) : label }</label>
-      <div title={value}>{ children || value }</div>
+      <div title={typeof value === "object" ? "" : value}>{ children || value }</div>
     </div>
   );
 };

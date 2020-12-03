@@ -42,7 +42,7 @@ class ConfirmModal extends React.PureComponent {
 
   render() {
     return (
-      <Modal closable={true} OnClickOutside={this.HandleCancel}>
+      <Modal closable={true} OnClickOutside={this.props.onCancel}>
         <Form
           className={this.props.additionalInputs && this.props.additionalInputs.length > 0 ? "confirm-with-inputs" : ""}
           submitText="OK"

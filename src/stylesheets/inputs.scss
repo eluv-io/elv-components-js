@@ -17,6 +17,20 @@ textarea {
   grid-template-columns: 10rem 1fr;
   margin-bottom: $elv-spacing-xs;
 
+  label {
+    height: 100%;
+  }
+
+  &.-elv-checkbox-input {
+    margin-bottom: $elv-spacing-xs;
+
+    label {
+      align-items: center;
+      display: flex;
+      height: 100%;
+    }
+  }
+
   .checkbox-container {
     align-items: center;
     display: flex;
