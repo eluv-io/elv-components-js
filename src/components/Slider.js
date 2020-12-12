@@ -12,7 +12,9 @@ export class Range extends React.Component {
     this.state = {
       sliderElement: undefined,
       hoverPosition: props.min,
-      draggingHandle: undefined
+      hoverHandle: undefined,
+      draggingHandle: undefined,
+      width: 0
     };
 
     this.WatchResize = this.WatchResize.bind(this);
@@ -38,10 +40,9 @@ export class Range extends React.Component {
   WatchResize(element) {
     if(element && !this.resizeObserver) {
       this.resizeObserver = new ResizeObserver((entries) => {
-        const container = entries[0].target.parentNode;
-
         this.setState({
-          width: container.offsetWidth
+          width: Math.ceil(this.state.sliderElement.offsetWidth || 0),
+          containerWidth: Math.ceil(entries[0].target.offsetWidth || 0)
         });
       });
 
@@ -67,19 +68,19 @@ export class Range extends React.Component {
   }
 
   /* Dragging */
-  StartDrag(event) {
+  StartDrag(event, handleIndex) {
+    event.stopPropagation();
+
     if(!event.shiftKey) {
+      event = {...event};
+
       this.setState({
-        draggingHandle: this.ClosestHandleIndex(event),
-      });
+        draggingHandle: typeof handleIndex === "undefined" ? this.ClosestHandleIndex(event) : handleIndex,
+      }, () => this.HandleChange(event));
     }
 
     window.addEventListener("mousemove", this.Drag);
     window.addEventListener("mouseup", this.EndDrag);
-
-    this.state.sliderElement.style.cursor = "grab";
-
-    this.HandleChange(event);
   }
 
   Drag(event) {
@@ -92,8 +93,6 @@ export class Range extends React.Component {
     this.setState({
       draggingHandle: undefined
     });
-
-    this.state.sliderElement.style.cursor = "pointer";
 
     window.removeEventListener("mousemove", this.Drag);
     window.removeEventListener("mouseup", this.EndDrag);
@@ -116,19 +115,11 @@ export class Range extends React.Component {
         Math.min(this.props.max, Math.max(this.props.min, handle.position + diff))
       ));
     } else {
+      if(typeof this.state.draggingHandle === "undefined") { return; }
       // Range - multiple handles
       // Drag handles
       let values = this.props.handles.map(handle => handle.position);
-      const handleIndex = this.state.draggingHandle || this.ClosestHandleIndex(event);
-
-      // Ensure handles don't cross
-      if(handleIndex > 0) {
-        value = Math.max(value, values[handleIndex - 1]);
-      }
-
-      if(handleIndex < values.length - 1) {
-        value = Math.min(value, values[handleIndex + 1]);
-      }
+      const handleIndex = this.state.draggingHandle;
 
       values[handleIndex] = value;
 
@@ -146,18 +137,9 @@ export class Range extends React.Component {
 
     this.props.handles.forEach((handle, i) => {
       const distance = Math.abs(handle.position - position);
-      if(distance < closestHandle) {
+      if(distance < closestHandle && !handle.disabled && !handle.handleControlOnly) {
         closestHandle = distance;
         handleIndex = i;
-
-        if(handle.disabled) {
-          // Closest handle is disabled - select the previous or next handle based on the position clicked
-          if(handle.position - position > 1) {
-            handleIndex = i - 1;
-          } else {
-            handleIndex = i + 1;
-          }
-        }
       }
     });
 
@@ -183,22 +165,33 @@ export class Range extends React.Component {
 
   /* Elements */
 
-  ToolTip(position) {
+  ToolTip(position, markNumber) {
     if(position === undefined) { position = this.state.hoverPosition; }
 
-    return this.props.renderToolTip ? this.props.renderToolTip(position) : <span>{position}</span>;
+    if(
+      typeof markNumber === "undefined" &&
+      (typeof this.state.hoverHandle !== "undefined" || typeof this.state.draggingHandle !== "undefined")
+    ) {
+      const handle = this.props.handles[this.state.hoverHandle || this.state.draggingHandle];
+
+      if(handle && handle.toolTip) {
+        return handle.toolTip;
+      }
+    }
+
+    return this.props.renderToolTip ? this.props.renderToolTip(position, markNumber) : <span>{position}</span>;
   }
 
   ActiveTrack() {
     const positions = this.props.handles.map(handle => handle.position);
-    const min = positions.length === 1 ? this.props.min : positions.reduce((min, p) => p < min ? p : min);
-    const max = positions.reduce((max, p) => p > max ? p : max);
+    const min = positions.length === 1 ? this.props.min : positions[0];
+    const max = positions[Math.max(0, positions.length - 1)];
 
     return (
       <div
         style={{
           left: this.PositionToPixels(min),
-          right: this.state.width - this.PositionToPixels(max)
+          right: Math.ceil(this.state.width - this.PositionToPixels(max))
         }}
         data-slider-active={true}
         className="-elv-slider-active"
@@ -207,17 +200,36 @@ export class Range extends React.Component {
   }
 
   Handle(handle, i) {
+    if(handle.position < this.props.min || handle.position > this.props.max) { return null; }
+
     const dragging = this.state.draggingHandle === i;
+
+    let styleClassName = "-elv-slider-handle-line";
+    if(this.props.handleStyle === "circle" || handle.style === "circle") {
+      styleClassName = "-elv-slider-handle-circle";
+    } else if(this.props.handleStyle === "arrow" || handle.style === "arrow") {
+      styleClassName = "-elv-slider-handle-arrow";
+    }
+
     return (
-      <div
-        key={`-elv-slider-handle-${i}`}
-        style={{left: `${this.PositionToPixels(handle.position)}px`}}
-        className={`-elv-slider-handle ${dragging ? "-elv-slider-handle-active" : ""} ${handle.className || ""}`}
-      />
+      <ToolTip key={`-elv-slider-handle-${i}`} content={handle.toolTip ? handle.toolTip : this.ToolTip()}>
+        <div
+          style={{left: `${this.PositionToPixels(handle.position)}px`}}
+          className={`-elv-slider-handle ${styleClassName} ${dragging ? "-elv-slider-handle-active" : ""} ${handle.className || ""}`}
+          onMouseDown={handle.disabled ? undefined : event => this.StartDrag(event, i)}
+          onMouseUp={handle.disabled ? undefined : this.EndDrag}
+          onClick={handle.disabled ? undefined : this.HandleChange}
+          onMouseEnter={() => this.setState({hoverHandle: i})}
+          onMouseLeave={() => this.setState({hoverHandle: undefined})}
+          {...(handle.additionalProps || {})}
+        >
+          { this.props.handleStyle === "arrow" || handle.style === "arrow" ? "▼" : null }
+        </div>
+      </ToolTip>
     );
   }
 
-  Marks() {
+  Marks({notches=true, text=true}) {
     if(!this.props.showMarks) { return null; }
 
     const nMarks = this.props.marks || 10;
@@ -227,18 +239,24 @@ export class Range extends React.Component {
     const widthOffset = widthInterval / 2;
     let marks = [];
 
+    const markTextEvery = this.props.markTextEvery || 1;
+
     for(let i = 0; i < nMarks; i++) {
       const scalePosition = this.props.min + (scaleInterval * i + scaleOffset);
-      const passed = this.props.handles[0].position > scalePosition;
+      const passed = (this.props.handles[0] || {}).position > scalePosition;
+      const majorMark = (Math.ceil(i + markTextEvery / 2)) % markTextEvery === 0;
+
       marks.push(
         <div
           style={{left: widthInterval * i + widthOffset }} key={`-elv-slider-mark-${i}`}
           className={`-elv-slider-mark ${passed ? "-elv-slider-mark-passed" : ""}`}
         >
-          <div className="-elv-slider-mark-notch" />
-          <div className="-elv-slider-mark-text">
-            { this.ToolTip(scalePosition) }
-          </div>
+          { notches ? <div className={`-elv-slider-mark-notch ${majorMark ? "-elv-slider-mark-notch-major" : ""}`} /> : null }
+          { text && majorMark ?
+            <div className="-elv-slider-mark-text">
+              { this.ToolTip(scalePosition, i) }
+            </div> : null
+          }
         </div>
       );
     }
@@ -251,8 +269,6 @@ export class Range extends React.Component {
   }
 
   Slider() {
-    if(!this.state.width) { return null; }
-
     return (
       <div
         onMouseEnter={this.StartMouseover}
@@ -264,18 +280,20 @@ export class Range extends React.Component {
         }}
         className="-elv-slider"
       >
-        <ToolTip content={this.ToolTip()}>
-          <div
-            onMouseDown={this.StartDrag}
-            onMouseUp={this.EndDrag}
-            onClick={this.HandleChange}
-            className="-elv-slider-overlay"
-          >
-            { this.ActiveTrack() }
-            { this.props.handles.map(this.Handle) }
-          </div>
-        </ToolTip>
-        { this.Marks() }
+        { this.props.topMarks ? this.Marks({text: true, notches: false}) : null }
+        <div
+          onMouseDown={this.props.handleControlOnly ? undefined : this.StartDrag}
+          onMouseUp={this.props.handleControlOnly ? null : this.EndDrag}
+          onClick={this.props.handleControlOnly ? null : this.HandleChange}
+          className="-elv-slider-overlay"
+        >
+          { this.ActiveTrack() }
+          { this.props.handles.map(this.Handle) }
+          <ToolTip content={this.ToolTip()}>
+            <div className="-elv-slider-tooltip-overlay" />
+          </ToolTip>
+        </div>
+        { this.Marks({notches: true, text: !this.props.topMarks}) }
       </div>
     );
   }
@@ -286,7 +304,9 @@ export class Range extends React.Component {
         ref={this.WatchResize}
         className={`
           -elv-slider-container
+          ${typeof this.state.draggingHandle !== "undefined" ? "-elv-slider-container-dragging" : ""}
           ${this.props.showMarks ? "-elv-slider-with-marks" : ""}
+          ${this.props.topMarks ? "-elv-slider-top-marks" : ""}
           ${this.props.className || ""}
         `}
       >
@@ -319,8 +339,12 @@ const commonPropTypes = {
   max: PropTypes.number.isRequired,
   showMarks: PropTypes.bool,
   marks: PropTypes.number,
+  markTextEvery: PropTypes.number,
+  topMarks: PropTypes.bool,
   onChange: PropTypes.func,
-  renderToolTip: PropTypes.func
+  renderToolTip: PropTypes.func,
+  handleStyle: PropTypes.string,
+  handleControlOnly: PropTypes.bool
 };
 
 Range.propTypes = {

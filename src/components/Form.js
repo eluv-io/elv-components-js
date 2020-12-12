@@ -67,7 +67,7 @@ class Form extends React.Component {
         loading: false,
         completed: false,
         error: true,
-        errorMessage: errorMessage
+        errorMessage: errorMessage.trim()
       });
 
       if(this.props.OnError) {
