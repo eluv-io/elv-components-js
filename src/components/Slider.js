@@ -160,7 +160,9 @@ export class Range extends React.Component {
   PositionToPixels(position) {
     const pixels = (position - this.props.min) * (this.state.width / this.Scale());
 
-    return Math.min(Math.max(0, pixels), this.state.width);
+    const result = Math.min(Math.max(0, pixels), this.state.width);
+
+    return isNaN(result) ? 0 : result;
   }
 
   /* Elements */
@@ -215,7 +217,7 @@ export class Range extends React.Component {
       <ToolTip key={`-elv-slider-handle-${i}`} content={handle.toolTip ? handle.toolTip : this.ToolTip()}>
         <div
           style={{left: `${this.PositionToPixels(handle.position)}px`}}
-          className={`-elv-slider-handle ${styleClassName} ${dragging ? "-elv-slider-handle-active" : ""} ${handle.className || ""}`}
+          className={`-elv-slider-handle ${styleClassName} ${handle.disabled ? "-elv-slider-handle-disabled" : ""} ${dragging ? "-elv-slider-handle-active" : ""} ${handle.className || ""}`}
           onMouseDown={handle.disabled ? undefined : event => this.StartDrag(event, i)}
           onMouseUp={handle.disabled ? undefined : this.EndDrag}
           onClick={handle.disabled ? undefined : this.HandleChange}

@@ -34,7 +34,7 @@ $slider-height: 14px;
 .-elv-slider-active {
   background-color: $elv-color-bg-dark;
   height: $slider-height;
-  opacity: 0.8;
+  opacity: 0.7;
   position: absolute;
 }
 
@@ -46,6 +46,10 @@ $slider-height: 14px;
   position: absolute;
   width: 4px;
   z-index: 100;
+}
+
+.-elv-slider-handle-disabled {
+  pointer-events: none;
 }
 
 .-elv-slider-handle-circle {
@@ -87,7 +91,7 @@ $slider-height: 14px;
   }
 
   .-elv-slider-mark-notch {
-    background-color: $elv-color-mediumgray;
+    background-color: $elv-color-darkgray;
     height: calc(#{$slider-height} / 2);
     margin-top: calc(-#{$slider-height} / 2);
     position: absolute;
