@@ -102,7 +102,9 @@
       border: 0;
       font-family: $elv-font-default;
       font-size: $elv-font-l;
-      padding: $elv-spacing-xxs;
+      padding: 0;
+      margin: 0;
+      background: transparent;
     }
   }
 
