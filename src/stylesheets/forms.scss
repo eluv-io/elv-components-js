@@ -99,12 +99,12 @@
     padding: $elv-spacing-xs;
 
     pre {
+      background: transparent;
       border: 0;
       font-family: $elv-font-default;
       font-size: $elv-font-l;
-      padding: 0;
       margin: 0;
-      background: transparent;
+      padding: 0;
     }
   }
 

@@ -155,8 +155,13 @@ export const MultiSelect = ({label, name, values, onChange, options, className="
 
   const Add = () => {
     let newValues = [...values];
-    const next = options.find(option => !newValues.includes(option)) || options[0];
-    newValues.push(next);
+    const next = options.find(option =>
+      Array.isArray(option) ?
+        !newValues.includes(option[1]) :
+        !newValues.includes(option)
+    ) || (Array.isArray(options[0]) ? (options[0] || [])[1] : options[0]) || "";
+
+    newValues.push(Array.isArray(next) ? next[1] : next);
 
     onChange(newValues);
   };
@@ -183,9 +188,13 @@ export const MultiSelect = ({label, name, values, onChange, options, className="
               value={selected}
               onChange={event => Update(index, event)}
             >
-              {options.map(option  =>
-                <option value={option} key={`-elv-${name}-${option}-${index}`}>{option}</option>
-              )}
+              {options.map(option => {
+                if(Array.isArray(option)) {
+                  return <option value={option[1]} key={`-elv-${name}-${option[1]}-${index}`}>{option[0]}</option>;
+                } else {
+                  return <option value={option} key={`-elv-${name}-${option}-${index}`}>{option}</option>;
+                }
+              })}
             </select>
 
             <IconButton
