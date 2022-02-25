@@ -2,7 +2,7 @@ import "../stylesheets/inputs.scss";
 import "react-datetime/css/react-datetime.css";
 require("moment-timezone");
 
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Action from "./Action";
 import BrowseWidget from "./BrowseWidget";
 import {IconButton} from "./Icons";
@@ -120,6 +120,15 @@ export const TextArea = ({label, name, value, onChange, className="", json=false
 };
 
 export const Selection = ({label, name, value, onChange, options, className=""}) => {
+  useEffect(() => {
+    try {
+      if(!options.includes(value) && options && options.length > 0) {
+        onChange(options[0]);
+      }
+    // eslint-disable-next-line no-empty
+    } catch(error) {}
+  }, [value]);
+
   return (
     <div className={`-elv-input -elv-select ${className}`}>
       <label htmlFor={name}>{label || FormatName(name)}</label>
@@ -144,6 +153,15 @@ export const Selection = ({label, name, value, onChange, options, className=""})
 };
 
 export const MultiSelect = ({label, name, values, onChange, options, className=""}) => {
+  useEffect(() => {
+    try {
+      if(values && values.length > 0 && options && options.length > 0 && values.find(value => !options.includes(value))) {
+        onChange(values.filter(value => options.includes(value)));
+      }
+      // eslint-disable-next-line no-empty
+    } catch(error) {}
+  }, [values]);
+
   values = values || [];
 
   const Update = (index, event) => {
