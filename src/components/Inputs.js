@@ -122,7 +122,7 @@ export const TextArea = ({label, name, value, onChange, className="", json=false
 export const Selection = ({label, name, value, onChange, options, className=""}) => {
   useEffect(() => {
     try {
-      if(!options.includes(value) && options && options.length > 0) {
+      if(options && options.length > 0 && !options.find(option => Array.isArray(option) ? option[1] === value : option === value)) {
         onChange(options[0]);
       }
     // eslint-disable-next-line no-empty
@@ -153,15 +153,6 @@ export const Selection = ({label, name, value, onChange, options, className=""})
 };
 
 export const MultiSelect = ({label, name, values, onChange, options, className=""}) => {
-  useEffect(() => {
-    try {
-      if(values && values.length > 0 && options && options.length > 0 && values.find(value => !options.includes(value))) {
-        onChange(values.filter(value => options.includes(value)));
-      }
-      // eslint-disable-next-line no-empty
-    } catch(error) {}
-  }, [values]);
-
   values = values || [];
 
   const Update = (index, event) => {
