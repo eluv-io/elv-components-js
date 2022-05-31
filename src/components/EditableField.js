@@ -7,7 +7,6 @@ import EditIcon from "../icons/edit.svg";
 import SaveIcon from "../icons/check.svg";
 import {IconButton} from "./Icons";
 import {onEnterPressed} from "..";
-import Truncate from "react-truncate";
 
 class EditableField extends React.Component {
   constructor(props) {
@@ -77,17 +76,6 @@ class EditableField extends React.Component {
 
     if(this.props.children) {
       display = this.props.children;
-    } else if(this.props.value && this.props.truncate && this.props.lines) {
-      display = (
-        <Truncate
-          className={`-elv-truncated-field ${this.state.showAll ? "" : "truncated"}`}
-          onClick={() => this.setState({showAll: !this.state.showAll})}
-          lines={!this.state.showAll && this.props.lines}
-          tag={"div"}
-        >
-          { this.props.value }
-        </Truncate>
-      );
     }
 
     switch(this.props.type) {
