@@ -1,7 +1,7 @@
 import "../stylesheets/forms.scss";
 
 import React from "react";
-import Redirect from "react-router-dom/es/Redirect";
+import {Navigate} from "react-router-dom";
 import PropTypes from "prop-types";
 import Action from "./Action";
 import LoadingElement from "./LoadingElement";
@@ -133,11 +133,11 @@ class Form extends React.Component {
   render() {
     if(this.state.status.completed && this.props.redirectPath) {
       return (
-        <Redirect push to={ this.props.redirectPath } />
+        <Navigate replace to={ this.props.redirectPath } />
       );
     } else if(this.state.cancel) {
       return (
-        <Redirect push to={ this.props.cancelPath } />
+        <Navigate replace to={ this.props.cancelPath } />
       );
     }
 

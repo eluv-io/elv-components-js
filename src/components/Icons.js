@@ -1,9 +1,9 @@
 import "../stylesheets/icons.scss";
 
 import SVG from "react-inlinesvg";
-import React from "react";
-import Link from "react-router-dom/es/Link";
+import React, { useState } from "react";
 import {onEnterPressed} from "../utils/Events";
+import {Link} from "react-router-dom";
 
 export const CroppedIcon = ({
   icon,
@@ -59,11 +59,11 @@ export const CroppedIconWithAction = ({
   );
 };
 
-export const ImageIcon = ({icon, alternateIcon, label, useLoadingIndicator=true, className, ...props}) => {
-  const [error, setError] = React.useState(false);
-  const [loading, setLoading] = React.useState(true);
+export const ImageIcon = ({icon, alternateIcon, label, useLoadingIndicator=false, className="", ...props}) => {
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-  className = "-elv-icon " + (className || "");
+  className = "image-icon " + (className || "");
 
   const currentIcon = error ? alternateIcon : icon;
   const handleError = error ? undefined : () => setError(true);
@@ -75,7 +75,7 @@ export const ImageIcon = ({icon, alternateIcon, label, useLoadingIndicator=true,
       <SVG alt={label} className={className} src={currentIcon} {...props} />
     );
   } else {
-    className = loading && useLoadingIndicator ? "-elv-icon-with-loader " + className : className;
+    className = loading && useLoadingIndicator ? "image-icon-with-loader " + className : className;
 
     return (
       <img
