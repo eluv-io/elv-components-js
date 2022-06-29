@@ -233,23 +233,6 @@ Icon that acts as a link.
 | className |   string         |            |          | Component's class name identifier            |
 
 
-
-## Inputs.js
-
-### FormatName
-### Maybe
-### Warning
-### Input
-### ColorSelection
-### Checkbox
-### TextArea
-### Selection
-### MultiSelect
-### DateSelection
-### ToggleSection
-### LabelledField
-
-
 ## JsonInput.js
 
 Text field that accepts json data.
