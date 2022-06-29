@@ -31,7 +31,7 @@ Three different animated icons that can be used for loading display.
  - BallPulse   
  ![](./src/icons/ball-pulse.gif)
 
- - BallSpin
+ - BallSpin  
  ![](./src/icons/ball-spin.gif)
 
 
