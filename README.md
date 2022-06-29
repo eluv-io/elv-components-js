@@ -93,7 +93,7 @@ Modal element which prompts user to confirm or deny a specific function.
 
 ## Copy.js
 
-Clickable component that allows text to be copied to clipboard by simply clicking on it. Text is passed on using the children prop. 
+Clickable component that allows text to be copied to clipboard by simply clicking on it. Text is passed using the children prop. 
 
 
 ## EditableField.js
