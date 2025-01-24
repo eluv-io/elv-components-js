@@ -134,7 +134,6 @@ const TraversableJson = ({
         role={"button"}
         disabled={disabled}
         onClick={() => {
-          console.log(JSON.stringify(json).length)
           setShow(true);
           setExpandChildren(true);
         }}
