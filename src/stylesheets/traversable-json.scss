@@ -31,15 +31,23 @@
   button {
     @include elv-no-select;
     color: $elv-color-mediumgray;
-    height: $elv-font-l;
-    padding: 0 $elv-spacing-xs;
+    height: 20px;
+    width: 20px;
+    min-width: 20px;
+    padding: 0;
+    background-color: transparent;
+    border: 0;
+    cursor: pointer;
+
+    &:disabled {
+      opacity: 0.25;
+    }
 
     &:last-child {
       padding-left: 0;
     }
   }
 
-  .-elv-expand-button,
   label {
     cursor: pointer;
     min-width: 5rem;

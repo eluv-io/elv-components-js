@@ -17,6 +17,7 @@ const TraversableJson = ({
   onDelete,
   deleteMessage,
   expand=false,
+  expandLimit=500000,
   path=""
 }) => {
   const [show, setShow] = useState(expand);
@@ -124,13 +125,16 @@ const TraversableJson = ({
 
   let expandButton;
   if(expandable && !editing) {
+    const disabled = JSON.stringify(json).length > expandLimit;
     expandButton = (
-      <span
+      <button
         hidden={!expandable || (show && expandChildren)}
         className="-elv-expand-button"
         tabIndex={0}
         role={"button"}
+        disabled={disabled}
         onClick={() => {
+          console.log(JSON.stringify(json).length)
           setShow(true);
           setExpandChildren(true);
         }}
@@ -139,10 +143,10 @@ const TraversableJson = ({
           setExpandChildren(true);
         })}
         aria-label="Expand all"
-        title="Expand all"
+        title={disabled ? "Too large to expand all" : "Expand all"}
       >
         ▼
-      </span>
+      </button>
     );
   }
 
